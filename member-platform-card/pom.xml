@@ -11,9 +11,9 @@
     </parent>
 
     <groupId>cn.wandingkeji</groupId>
-    <artifactId>merber-platform-card</artifactId>
+    <artifactId>member-platform-card</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>merber-platform-card</name>
+    <name>member-platform-card</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>
@@ -31,11 +31,7 @@
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
 
-        <!-- 安全验证 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
+
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -45,6 +41,18 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-zipkin</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+
+
+        <dependency>
+            <groupId>cn.wandingkeji</groupId>
+            <artifactId>member-platform-card-api</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
         <dependency>

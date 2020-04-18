@@ -1,8 +1,10 @@
 package cn.wandingkeji.member.service;
 
-public interface MermberService {
+import cn.wandingkeji.card.api.CardApi;
+import org.springframework.cloud.openfeign.FeignClient;
 
+@FeignClient(name = "card")
+public interface MermberService extends CardApi {
 
-    public String getMemberInfo();
 
 }
