@@ -12,7 +12,7 @@
     </parent>
 
     <groupId>cn.wandingkeji</groupId>
-    <artifactId>merber-platform-card-dao</artifactId>
+    <artifactId>member-platform-card-dao</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
 
