@@ -22,6 +22,19 @@
     </properties>
 
     <dependencies>
+
+        <dependency>
+            <groupId>cn.wandingkeji</groupId>
+            <artifactId>member-platform-card-service</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -54,11 +67,7 @@
         </dependency>
 
 
-        <dependency>
-            <groupId>cn.wandingkeji</groupId>
-            <artifactId>member-platform-card-api</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
+
 
         <dependency>
             <groupId>org.projectlombok</groupId>

@@ -1,0 +1,3 @@
+2020-04-20 11:32:13.279 default [main] INFO  c.w.c.MerberPlatformCardApplication - The following profiles are active: jdbc
+2020-04-20 11:36:47.155 default [main] INFO  c.w.c.MerberPlatformCardApplication - The following profiles are active: jdbc
+2020-04-20 11:38:22.844 default [main] INFO  c.w.c.MerberPlatformCardApplication - The following profiles are active: jdbc

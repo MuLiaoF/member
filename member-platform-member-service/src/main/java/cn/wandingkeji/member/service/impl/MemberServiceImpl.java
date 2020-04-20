@@ -1,6 +1,7 @@
 package cn.wandingkeji.member.service.impl;
 
 import cn.wandingkeji.card.api.CardApi;
+import cn.wandingkeji.card.entity.Card;
 import cn.wandingkeji.member.service.MermberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -17,5 +18,10 @@ public class MemberServiceImpl implements MermberService {
     @Override
     public String index() {
         return cardApi.index();
+    }
+
+    @Override
+    public Card getCard(String id) {
+        return null;
     }
 }
