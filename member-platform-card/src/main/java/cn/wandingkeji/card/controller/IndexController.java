@@ -35,6 +35,4 @@ public class IndexController implements CardApi {
         return cardService.getCard(id);
     }
 
-
-
 }
