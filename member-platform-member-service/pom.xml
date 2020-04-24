@@ -19,7 +19,7 @@
 
         <dependency>
             <groupId>cn.wandingkeji</groupId>
-            <artifactId>member-platform-card-api</artifactId>
+            <artifactId>member-platform-member-dao</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
