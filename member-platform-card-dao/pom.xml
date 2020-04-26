@@ -17,8 +17,6 @@
 
     <dependencies>
 
-
-
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -41,7 +39,12 @@
             <artifactId>member-platform-card-api</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
-
+        <!-- 内容：支付接口/微信公众号封装的bean,接口等... -->
+        <dependency>
+            <groupId>com.weupay.member.core</groupId>
+            <artifactId>member-core</artifactId>
+            <version>1.0.0</version>
+        </dependency>
 
         <dependency>
             <groupId>com.baomidou</groupId>

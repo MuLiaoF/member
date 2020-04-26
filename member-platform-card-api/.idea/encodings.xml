@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding" addBOMForNewFiles="with NO BOM">
+    <file url="file://$PROJECT_DIR$/../member-platform-card" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../member-platform-card-dao" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../member-platform-card-service" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../member-platform-member" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../member-platform-pay" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../member-platform-pay-api" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../member-platform-pay-dao" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../member-platform-pay-service" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../member-platform-system-api" charset="UTF-8" />
+  </component>
+</project>

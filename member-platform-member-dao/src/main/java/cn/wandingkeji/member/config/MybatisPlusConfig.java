@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
@@ -32,8 +33,8 @@ public class MybatisPlusConfig {
      //private int fieldStrategy;
      //@Value("${mybatis-plus.global-config.capital-mode}")
      //private boolean capitalMode;
-     //@Value("${mybatis-plus.mapper-locations}")
-     //private String mapperLocations;
+     @Value("${mybatis-plus.mapper-locations}")
+     private String mapperLocations;
      //@Value("${mybatis-plus.type-aliases-package}")
      //private String typeAliasesPackage;
      //@Value("${mybatis-plus.global-config.refresh-mapper}")
@@ -64,7 +65,7 @@ public class MybatisPlusConfig {
              ResourcePatternResolver resolver=new PathMatchingResourcePatternResolver();
              try{
                    sqlSessionFactoryBean.setGlobalConfig(configuration);
-                   //sqlSessionFactoryBean.setMapperLocations(resolver.getResources(mapperLocations));
+                   sqlSessionFactoryBean.setMapperLocations(resolver.getResources(mapperLocations));
                    //sqlSessionFactoryBean.setTypeAliasesPackage(typeAliasesPackage);
                    return sqlSessionFactoryBean.getObject();
                }catch (Exception e){
@@ -74,8 +75,8 @@ public class MybatisPlusConfig {
          }
      @Bean(name = "transactionManager")
      public DataSourceTransactionManager transactionManager(){
-                log.info("初始化transactionManager");
-              return new DataSourceTransactionManager(dataSource);
-      }
+         log.info("初始化transactionManager");
+         return new DataSourceTransactionManager(dataSource);
+     }
 
 }

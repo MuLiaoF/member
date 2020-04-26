@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="member-platform-card" />
+        <module name="member-platform-card-api" />
+        <module name="member-platform-card-dao" />
+        <module name="member-platform-card-service" />
+        <module name="member-platform-member" />
+        <module name="member-platform-pay" />
+        <module name="member-platform-pay-api" />
+        <module name="member-platform-pay-dao" />
+        <module name="member-platform-pay-service" />
+        <module name="member-platform-system-api" />
+      </profile>
+    </annotationProcessing>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="member-platform-card" options="-parameters" />
+      <module name="member-platform-card-api" options="-parameters" />
+      <module name="member-platform-card-dao" options="-parameters" />
+      <module name="member-platform-card-service" options="-parameters" />
+      <module name="member-platform-member" options="-parameters" />
+      <module name="member-platform-pay" options="-parameters" />
+      <module name="member-platform-pay-api" options="-parameters" />
+      <module name="member-platform-pay-dao" options="-parameters" />
+      <module name="member-platform-pay-service" options="-parameters" />
+      <module name="member-platform-system-api" options="-parameters" />
+    </option>
+  </component>
+</project>

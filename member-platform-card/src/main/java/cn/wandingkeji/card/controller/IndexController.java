@@ -2,9 +2,9 @@ package cn.wandingkeji.card.controller;
 
 import cn.wandingkeji.card.entity.Card;
 import cn.wandingkeji.service.card.CardService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,6 +13,7 @@ import cn.wandingkeji.card.api.CardApi;
 
 
 @RestController
+@Slf4j
 public class IndexController implements CardApi {
 
 
