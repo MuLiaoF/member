@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.wandingkeji.member.mapper.WdMemBonusMapper">
+	<resultMap id="BaseResultMap" type="cn.wandingkeji.member.entity.WdMemBonus">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="member_id" property="member_id" jdbcType="VARCHAR" />
+		<result column="user_code_id" property="user_code_id" jdbcType="VARCHAR" />
+		<result column="card_id" property="card_id" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="VARCHAR" />
+		<result column="account_name" property="account_name" jdbcType="VARCHAR" />
+		<result column="account_num" property="account_num" jdbcType="VARCHAR" />
+		<result column="account_pin" property="account_pin" jdbcType="VARCHAR" />
+		<result column="uom" property="uom" jdbcType="VARCHAR" />
+		<result column="org" property="org" jdbcType="VARCHAR" />
+		<result column="from_date" property="from_date" jdbcType="TIMESTAMP" />
+		<result column="thru_date" property="thru_date" jdbcType="TIMESTAMP" />
+		<result column="level" property="level" jdbcType="VARCHAR" />
+
+		<result column="actual_balance" property="actual_balance" jdbcType="DECIMAL" />
+		<result column="available_balance" property="available_balance" jdbcType="DECIMAL" />
+		<result column="account_bouns" property="account_bouns" jdbcType="DECIMAL" />
+		
+		<result column="creat_date" property="creat_date" jdbcType="TIMESTAMP" />
+		<result column="update_date" property="update_date" jdbcType="TIMESTAMP" />
+		<result column="cum_trans_amt" property="cum_trans_amt" jdbcType="DECIMAL" />
+	</resultMap>
+	<!-- 会员积分XML -->
+	
+	<sql id="Base_Column_List">
+		id,member_id,user_code_id,card_id,
+		status,account_name,account_num,account_pin,uom,org,
+		from_date,thru_date,level,actual_balance,available_balance,account_bouns,
+		creat_date,update_date,cum_trans_amt
+	</sql>
+	<sql id="Insert_Column_List">	
+		member_id,user_code_id,card_id,
+		status,account_name,account_num,
+		account_pin,uom,org,
+		from_date,thru_date,level,
+		actual_balance,available_balance,account_bouns,
+		creat_date,update_date,cum_trans_amt
+	</sql>
+	<!-- 根据id查询信息 -->
+	<select id="selectById" resultMap="BaseResultMap" >
+		select  <include refid="Base_Column_List" />
+		 from  wd_mem_bonus  where  id=#{id, jdbcType=INTEGER}
+	
+	</select>
+	<select id="selectByCondition" resultMap="BaseResultMap" >
+		select  <include refid="Base_Column_List" />
+		 from  wd_mem_bonus  where 1=1
+		<if test="condition.member_id !=null" >
+		   and member_id = #{condition.member_id, jdbcType=VARCHAR}
+		</if>
+		<if test="condition.user_code_id !=null" >
+		   and  user_code_id=#{condition.user_code_id, jdbcType=VARCHAR}
+		</if>
+		<if test="condition.card_id !=null" >
+		 and  card_id=#{condition.card_id, jdbcType=VARCHAR}
+		</if>
+	</select>
+	<!-- 添加信息 -->
+	<insert id="insert" parameterType="cn.wandingkeji.member.entity.WdMemBonus" useGeneratedKeys="true"  keyProperty="bonus.id">
+		insert into wd_mem_bonus (
+			<include refid="Insert_Column_List" />
+		)
+		values (
+		#{bonus.member_id},#{bonus.user_code_id},#{bonus.card_id},
+		#{bonus.status},#{bonus.account_name},#{bonus.account_num},
+		#{bonus.account_pin},#{bonus.uom},#{bonus.org},
+		#{bonus.from_date},#{bonus.thru_date},#{bonus.level},
+		#{bonus.actual_balance},#{bonus.available_balance},#{bonus.account_bouns},
+		#{bonus.creat_date},#{bonus.update_date},#{bonus.cum_trans_amt}
+	
+		)
+		
+	</insert>
+	<!-- 根据主键id更新信息 -->
+	<update id="updateById" parameterType="cn.wandingkeji.member.entity.WdMemBonus">
+		update wd_mem_bonus
+		 <trim prefix="set" suffixOverrides=",">
+		 	<if test="bonus.card_id != null">card_id=#{bonus.card_id,jdbcType=VARCHAR},</if>
+		 	<if test="bonus.member_id != null">member_id=#{bonus.member_id,jdbcType=VARCHAR},</if>
+		 	<if test="bonus.cum_trans_amt != null">cum_trans_amt=#{bonus.cum_trans_amt,jdbcType=VARCHAR},</if>
+		 	<if test="bonus.account_bouns != null">account_bouns=#{bonus.account_bouns,jdbcType=VARCHAR},</if>
+		 </trim>
+		 where id = #{bonus.id,jdbcType=INTEGER}	
+	</update>
+	<select id="selectByMemId" resultMap="BaseResultMap" >
+		select  <include refid="Base_Column_List" />
+		 from  wd_mem_bonus  where  member_id=#{member_id, jdbcType=VARCHAR}
+	
+	</select>
+	
+</mapper>

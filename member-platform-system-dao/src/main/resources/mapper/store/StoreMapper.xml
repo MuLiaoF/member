@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.wandingkeji.store.mapper.StoreMapper">
+	<resultMap id="BaseResultMap" type="cn.wandingkeji.store.entity.Store">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="mid" property="mid" jdbcType="INTEGER" />
+		<result column="store_type" property="storeType" jdbcType="VARCHAR" />
+		<result column="store_name" property="storeName" jdbcType="VARCHAR" />
+		<result column="poi_id" property="poi_id" jdbcType="VARCHAR" />
+		<result column="wx_store_id" property="wxStoreId" jdbcType="VARCHAR" />
+		<result column="mname" property="mname" jdbcType="VARCHAR" />
+		<result column="telephone" property="telephone" jdbcType="VARCHAR" />
+		<result column="longitude" property="longitude" jdbcType="VARCHAR" />
+		<result column="latitude" property="latitude" jdbcType="VARCHAR" />
+		<result column="shop_hours" property="shopHours" jdbcType="VARCHAR" />
+		
+		<result column="avg_price" property="avgPrice" jdbcType="DECIMAL" />
+		<result column="address" property="address" jdbcType="VARCHAR" />
+		<result column="photo" property="photo" jdbcType="VARCHAR" />
+		<result column="fsortid" property="fsortid" jdbcType="INTEGER" />
+		<result column="sortid" property="sortid" jdbcType="INTEGER" />
+		<result column="circle_id" property="circleId" jdbcType="INTEGER" />
+		<result column="city_id" property="cityId" jdbcType="INTEGER" />
+		<result column="city_name" property="cityName" jdbcType="VARCHAR" />
+		
+		<result column="province_id" property="provinceId" jdbcType="INTEGER" />
+		<result column="province_name" property="provinceName" jdbcType="VARCHAR" />
+		<result column="introduction" property="introduction" jdbcType="VARCHAR" />
+		<result column="recommend" property="recommend" jdbcType="VARCHAR" />
+		<result column="special" property="special" jdbcType="VARCHAR" />
+		<result column="district_id" property="districtId" jdbcType="INTEGER" />
+		<result column="district_name" property="districtName" jdbcType="VARCHAR" />
+		<result column="state" property="state" jdbcType="VARCHAR" />
+		<result column="add_time" property="addTime" jdbcType="TIMESTAMP" />
+		<result column="appid" property="appid" jdbcType="VARCHAR" />
+		<result column="ali_store_id" property="aliStoreId" jdbcType="VARCHAR" />
+		<result column="snumber" property="snumber" jdbcType="VARCHAR" />
+		<result column="revsere1" property="revsere1" jdbcType="VARCHAR" />
+		<result column="revsere2" property="revsere2" jdbcType="VARCHAR" />
+		<result column="revsere3" property="revsere3" jdbcType="VARCHAR" />
+		<result column="spwd" property="spwd" jdbcType="VARCHAR" />
+		<result column="saccount" property="saccount" jdbcType="VARCHAR" />
+		<result column="salt" property="salt" jdbcType="VARCHAR" />
+		<result column="sopenId" property="sopenId" jdbcType="VARCHAR" />
+
+
+		
+	</resultMap>
+	<!-- 添加商户信息 -->
+	<insert id="insert" parameterType="cn.wandingkeji.store.entity.Store">
+		insert into store (
+		<include refid="Insert_Column_List" />
+		)
+		values 
+		( 
+		#{store.id},
+		#{store.mid}, #{store.storeType},#{store.storeName}, #{store.poi_id},#{store.wxStoreId},#{store.mname},#{store.telephone},#{store.longitude},#{store.latitude},#{store.shopHours}
+		, #{store.avgPrice},#{store.address}, #{store.photo},#{store.fsortid},#{store.sortid},#{store.circleId},#{store.cityId},#{store.cityName},
+		#{store.provinceId}, #{store.provinceName},#{store.introduction}, #{store.recommend},#{store.special},#{store.districtId},#{store.districtName},#{store.state},#{store.appid}
+		,#{store.aliStoreId},#{store.snumber},#{store.revsere1},#{store.revsere2},#{store.revsere3},#{store.spwd},#{store.saccount},#{store.salt}
+		)
+	</insert>
+	<sql id="Insert_Column_List">
+		id,mid,store_type,store_name,poi_id,wx_store_id,mname,telephone,longitude,latitude,shop_hours,avg_price,address,photo,fsortid,
+		sortid,circle_id,city_id,city_name,province_id,province_name,introduction,recommend,special,district_id,district_name,state,appid,ali_store_id,snumber,revsere1,revsere2,revsere3,spwd,saccount,salt
+	</sql>
+	<sql id="Base_Column_List">
+		id,mid,store_type,store_name,poi_id,wx_store_id,mname,telephone,longitude,latitude,shop_hours,avg_price,address,photo,fsortid,
+		sortid,circle_id,city_id,city_name,province_id,province_name,introduction,recommend,special,district_id,district_name,state,add_time,
+		appid,ali_store_id,snumber,revsere1,revsere2,revsere3,spwd,saccount,salt,sopenId
+	</sql>
+	<sql id="Select_ToPhone_List">
+		id,store_name,poi_id,wx_store_id,mname,telephone,longitude,latitude,address
+	</sql>
+	<!-- 根据id查询次卡属性信息 -->
+	<select id="selectById" resultMap="BaseResultMap" >
+		select  <include refid="Base_Column_List" />
+	 		from  store  where  id=#{id, jdbcType=INTEGER}
+	</select>
+
+	<!-- 根据主键id更新次卡属性信息 -->
+	<update id="updateById" parameterType="cn.wandingkeji.store.entity.Store">
+		update store
+		 <trim prefix="set" suffixOverrides=",">
+		 	<if test="store.mname!=null">mname = #{store.mname,jdbcType=VARCHAR},</if>
+		  <if test="store.storeName != null">store_name = #{store.storeName,jdbcType=VARCHAR},</if>
+		  <if test="store.address!=null">address = #{store.address,jdbcType=VARCHAR},</if>
+		  <if test="store.photo!=null">photo = #{store.photo,jdbcType=VARCHAR},</if>
+		  <if test="store.telephone != null">telephone = #{store.telephone,jdbcType=VARCHAR},</if>
+		  <if test="store.avgPrice!=null">avg_price = #{store.avgPrice},</if>
+		  <if test="store.shopHours!=null">shop_hours = #{store.shopHours},</if>
+		  <if test="store.recommend!=null">recommend = #{store.recommend},</if>
+		  <if test="store.special!=null">special = #{store.special},</if>
+		  <if test="store.introduction!=null">introduction = #{store.introduction},</if>
+		  <if test="store.state!=null">state = #{store.state},</if>
+		  <if test="store.spwd!=null">spwd = #{store.spwd},</if>
+		  <if test="store.saccount!=null">saccount = #{store.saccount},</if>
+		  
+		  <if test="store.salt!=null">salt = #{store.salt},</if>
+		   <if test="store.sopenId!=null">sopenId = #{store.sopenId},</if>
+		   <if test="store.revsere1!=null">revsere1 = #{store.revsere1},</if>
+		 </trim>
+		 where id = #{store.id,jdbcType=INTEGER}	
+	</update>
+
+	<resultMap id="queryStoreMap" type="java.util.Map">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="mname" property="mname" jdbcType="VARCHAR" />
+		<result column="store_name" property="storeName" jdbcType="VARCHAR" />
+		<result column="poi_id" property="poi_id" jdbcType="VARCHAR" />
+		<result column="wx_store_id" property="wxStoreId" jdbcType="VARCHAR" />
+		<result column="telephone" property="telephone" jdbcType="VARCHAR" />
+		<result column="longitude" property="longitude" jdbcType="VARCHAR" />
+		<result column="latitude" property="latitude" jdbcType="VARCHAR" />
+		<result column="address" property="address" jdbcType="VARCHAR" />
+    </resultMap>
+	<select id="getWxStoreToPhone" resultMap="queryStoreMap">
+		select
+		  <include refid="Select_ToPhone_List" />
+		from store  where  mid=#{mid, jdbcType=INTEGER} order by id desc
+	</select>
+</mapper>

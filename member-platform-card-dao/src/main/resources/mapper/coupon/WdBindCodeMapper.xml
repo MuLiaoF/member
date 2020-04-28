@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.wandingkeji.coupon.mapper.WdBindCodeMapper">
+	<resultMap id="BaseResultMap" type="cn.wandingkeji.coupon.entity.WdBindCode">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="mid" property="mid" jdbcType="INTEGER" />
+		<result column="code" property="code" jdbcType="VARCHAR" />
+		<result column="mdCode" property="mdCode" jdbcType="VARCHAR" />
+		<result column="frequency" property="frequency" jdbcType="INTEGER" />
+		<result column="status" property="status" jdbcType="VARCHAR" />
+		<result column="unionid" property="unionid" jdbcType="VARCHAR" />
+		<result column="effectiveTime" property="effectiveTime" jdbcType="INTEGER" />
+		<result column="openid" property="openid" jdbcType="VARCHAR" />
+		<result column="openid_type" property="openid_type" jdbcType="VARCHAR" />
+		<result column="reserve1" property="reserve1" jdbcType="VARCHAR" />
+		<result column="reserve2" property="reserve2" jdbcType="VARCHAR" />
+		<result column="gmt_create" property="gmt_create" jdbcType="TIMESTAMP" />
+		<result column="gmt_modified" property="gmt_modified" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		id,mid,code,mdCode,frequency,status,effectiveTime,unionid,openid,openid_type,reserve1,reserve2,gmt_create,gmt_modified
+	</sql>
+	<sql id="Insert_Column_List">	
+		mid,code,mdCode,frequency,status,unionid,openid,openid_type,reserve1,reserve2,gmt_create
+	</sql>
+
+	<delete id="deleteByMdCode">
+		delete  from  wd_bind_code where  mdCode=#{mdCode, jdbcType=VARCHAR}
+	</delete>
+    <!-- 根据id查询 -->
+	<select id="selectById" resultMap="BaseResultMap" >
+		select  <include refid="Base_Column_List" />
+	 		from  wd_bind_code where  id=#{id, jdbcType=INTEGER}
+	</select>
+	<!-- 根据mdCode查询 -->
+	<select id="selectByMdCode" resultMap="BaseResultMap" >
+		select  <include refid="Base_Column_List" />
+	 		from  wd_bind_code where  mdCode=#{mdCode, jdbcType=VARCHAR}
+	</select>
+	<!-- 添加 -->
+	<insert id="insert" parameterType="cn.wandingkeji.coupon.entity.WdBindCode" useGeneratedKeys="true"  keyProperty="bindCode.id">
+		insert into wd_bind_code (
+			<include refid="Insert_Column_List" />
+		)
+		values (
+		#{bindCode.mid},#{bindCode.code},#{bindCode.mdCode},#{bindCode.frequency},
+		#{bindCode.status},#{bindCode.unionid},#{bindCode.openid},#{bindCode.openid_type},
+		#{bindCode.reserve1},#{bindCode.reserve2},#{bindCode.gmt_create}
+		)
+	</insert>
+	<!-- 更新 -->
+	<update id="updateById" parameterType="cn.wandingkeji.coupon.entity.WdBindCode">
+		update wd_bind_code
+		 <trim prefix="set" suffixOverrides=",">
+		 	<if test="bindCode.status != null">status=#{bindCode.status,jdbcType=VARCHAR},</if>
+		 	<if test="bindCode.unionid != null">unionid=#{bindCode.unionid,jdbcType=VARCHAR},</if>
+		 	<if test="bindCode.openid != null">openid=#{bindCode.openid,jdbcType=VARCHAR},</if>
+		 	<if test="bindCode.openid_type != null">openid_type=#{bindCode.openid_type,jdbcType=VARCHAR},</if>
+		 </trim>
+		 where id = #{bindCode.id,jdbcType=INTEGER}	
+	</update>
+</mapper>

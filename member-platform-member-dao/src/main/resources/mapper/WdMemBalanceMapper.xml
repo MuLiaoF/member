@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.wandingkeji.member.mapper.WdMemBalanceMapper">
+	<resultMap id="BaseResultMap" type="cn.wandingkeji.member.entity.WdMemBalance">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="member_id" property="member_id" jdbcType="VARCHAR" />
+		<result column="user_code_id" property="user_code_id" jdbcType="VARCHAR" />
+		<result column="card_id" property="card_id" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="VARCHAR" />
+		<result column="account_name" property="account_name" jdbcType="VARCHAR" />
+		<result column="account_num" property="account_num" jdbcType="VARCHAR" />
+		<result column="account_pin" property="account_pin" jdbcType="VARCHAR" />
+		<result column="uom" property="uom" jdbcType="VARCHAR" />
+		<result column="org" property="org" jdbcType="VARCHAR" />
+		<result column="from_date" property="from_date" jdbcType="TIMESTAMP" />
+		<result column="thru_date" property="thru_date" jdbcType="TIMESTAMP" />
+		<result column="level" property="level" jdbcType="VARCHAR" />
+		<result column="actual_balance" property="actual_balance" jdbcType="DECIMAL" />
+		<result column="available_balance" property="available_balance" jdbcType="DECIMAL" />
+		<result column="account_bouns" property="account_bouns" jdbcType="DECIMAL" />
+		<result column="creat_date" property="creat_date" jdbcType="TIMESTAMP" />
+		<result column="update_date" property="update_date" jdbcType="TIMESTAMP" />
+		<result column="cum_trans_amt" property="cum_trans_amt" jdbcType="DECIMAL" />
+		<result column="pay_count" property="payCount" jdbcType="INTEGER" />
+		<result column="pay_time_latest" property="payTimeLatest" jdbcType="TIMESTAMP" />
+		<result column="pay_store_id" property="payStoreId" jdbcType="INTEGER" />
+		<result column="donate_amount" property="donate_amount" jdbcType="DECIMAL" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		id,member_id,user_code_id,card_id,
+		status,account_name,account_num,account_pin,uom,org,
+		from_date,thru_date,level,actual_balance,available_balance,account_bouns,
+		creat_date,update_date,cum_trans_amt,pay_count,pay_time_latest,pay_store_id,donate_amount
+	</sql>
+	<sql id="Insert_Column_List">	
+		member_id,user_code_id,card_id,
+		status,account_name,account_num,
+		account_pin,uom,org,
+		from_date,thru_date,level,
+		actual_balance,available_balance,account_bouns,
+		creat_date,update_date,cum_trans_amt,pay_count
+	</sql>
+	<!-- 根据id查询信息 -->
+	<select id="selectByBalanceId" resultMap="BaseResultMap" >
+		select  <include refid="Base_Column_List" />
+		 from  wd_mem_balance  where  id=#{id, jdbcType=INTEGER}
+	
+	</select>
+	<select id="selectByCondition" resultMap="BaseResultMap" >
+		select  <include refid="Base_Column_List" />
+		 from  wd_mem_balance  where   user_code_id=#{condition.user_code_id, jdbcType=VARCHAR}
+		   and  card_id=#{condition.card_id, jdbcType=VARCHAR}
+	</select>
+	<select id="selectByMemId" resultMap="BaseResultMap" >
+		select  <include refid="Base_Column_List" />
+		 from  wd_mem_balance  where   member_id=#{member_id, jdbcType=VARCHAR}
+	</select>
+	<!-- 添加信息 -->
+	<insert id="insert" parameterType="cn.wandingkeji.member.entity.WdMemBalance" useGeneratedKeys="true"  keyProperty="balance.id">
+		insert into wd_mem_balance (
+			<include refid="Insert_Column_List" />
+		)
+		values (
+		#{balance.member_id},#{balance.user_code_id},#{balance.card_id},
+		#{balance.status},#{balance.account_name},#{balance.account_num},
+		#{balance.account_pin},#{balance.uom},#{balance.org},
+		#{balance.from_date},#{balance.thru_date},#{balance.level},
+		#{balance.actual_balance},#{balance.available_balance},#{balance.account_bouns},
+		#{balance.creat_date},#{balance.update_date},#{balance.cum_trans_amt},#{balance.payCount}
+		)
+		
+	</insert>
+	<!-- 根据主键id更新信息 更新余额 -->
+	<update id="updateByBalanceId" parameterType="cn.wandingkeji.member.entity.WdMemBalance">
+		update wd_mem_balance
+		 <trim prefix="set" suffixOverrides=",">
+		 	<if test="balance.card_id != null">card_id=#{balance.card_id,jdbcType=VARCHAR},</if>
+		 	<if test="balance.member_id != null">member_id=#{balance.member_id,jdbcType=VARCHAR},</if>
+		 	<if test="balance.cum_trans_amt != null">cum_trans_amt=#{balance.cum_trans_amt,jdbcType=VARCHAR},</if>
+		 	<if test="balance.actual_balance != null">actual_balance=#{balance.actual_balance,jdbcType=VARCHAR},</if>
+		 	<if test="balance.available_balance != null">available_balance=#{balance.available_balance,jdbcType=VARCHAR},</if>
+			 <if test="balance.payTimeLatest != null">pay_time_latest =#{balance.payTimeLatest,jdbcType=TIMESTAMP},</if>
+			 <if test="balance.payStoreId != null">pay_store_id=#{balance.payStoreId,jdbcType=INTEGER},</if>
+			 <if test="balance.payCount != null and balance.payCount != 0 ">pay_count=#{balance.payCount,jdbcType=INTEGER},</if>
+			<if test="balance.donate_amount != null">donate_amount=#{balance.donate_amount,jdbcType=VARCHAR}</if>
+
+		 </trim>
+		 where id = #{balance.id,jdbcType=INTEGER}
+		 ;
+	</update>
+
+	<!-- 根据主键id更新信息 更新余额 -->
+	<update id="updateBalanceByMemberId" parameterType="cn.wandingkeji.member.entity.WdMemBalance">
+		update wd_mem_balance
+		<trim prefix="set" suffixOverrides=",">
+			<if test="balance.payTimeLatest != null">pay_time_latest =#{balance.payTimeLatest,jdbcType=TIMESTAMP},</if>
+			<if test="balance.payStoreId != null">pay_store_id=#{balance.payStoreId,jdbcType=INTEGER},</if>
+			<if test="balance.payCount != null and balance.payCount != 0 ">pay_count=#{balance.payCount,jdbcType=INTEGER},</if>
+
+		</trim>
+		where member_id = #{balance.member_id,jdbcType=VARCHAR}
+	</update>
+
+
+
+
+
+
+</mapper>

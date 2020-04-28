@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="cn.wandingkeji.card.mapper.WdCardLevelMapper">
+	<resultMap id="BaseResultMap"
+		type="cn.wandingkeji.card.entity.WdCardLevel">
+		<result column="id" jdbcType="INTEGER" property="id" />
+		<result column="card_id" jdbcType="VARCHAR" property="card_id" />
+		<result column="level" jdbcType="VARCHAR" property="level" />
+		<result column="level_name" jdbcType="VARCHAR"
+			property="level_name" />
+		<result column="min_value" jdbcType="DECIMAL"
+			property="min_value" />
+		<result column="max_value" jdbcType="DECIMAL"
+			property="max_value" />
+		<result column="type" jdbcType="VARCHAR" property="type" />
+		<result column="comments" jdbcType="VARCHAR"
+			property="comments" />
+		<result column="creat_stamp" jdbcType="TIMESTAMP"
+			property="creat_stamp" />
+		<result column="update_stamp" jdbcType="TIMESTAMP"
+			property="update_stamp" />
+		<result column="cum_trans_amt" jdbcType="DECIMAL"
+			property="cum_trans_amt" />
+		<result column="sort" jdbcType="VARCHAR" property="sort" />
+		<result column="mid" jdbcType="INTEGER" property="mid" />
+		<result column="discount" jdbcType="DECIMAL"
+			property="discount" />
+		<result column="deposit_level" jdbcType="DECIMAL"
+			property="deposit_level" />
+		<result column="loc_bac_url" jdbcType="VARCHAR" property="loc_bac_url" />	
+		<result column="background_pic_url" jdbcType="VARCHAR" property="background_pic_url" />	
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		id,mid,card_id,level,level_name,min_value,max_value,type,comments,
+		creat_stamp,update_stamp,cum_trans_amt,sort,discount,deposit_level,loc_bac_url,background_pic_url
+	</sql>
+	<sql id="Insert_Column_List">
+		mid,card_id,level,level_name,min_value,max_value,type,comments,
+		cum_trans_amt,sort,discount,deposit_level,loc_bac_url,background_pic_url
+	</sql>
+
+	<insert id="insert"
+		parameterType="cn.wandingkeji.card.entity.WdCardLevel">
+		<selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		INSERT INTO wd_card_level (
+			<include refid="Insert_Column_List" />
+		)
+		VALUES
+		(#{wdCardLevel.mid,jdbcType=INTEGER},
+		#{wdCardLevel.card_id,jdbcType=VARCHAR},
+		#{wdCardLevel.level,jdbcType=VARCHAR},
+		#{wdCardLevel.level_name,jdbcType=VARCHAR},
+		#{wdCardLevel.min_value,jdbcType=DECIMAL},
+		#{wdCardLevel.max_value,jdbcType=DECIMAL},
+		#{wdCardLevel.type,jdbcType=VARCHAR},
+		#{wdCardLevel.comments,jdbcType=VARCHAR},
+		#{wdCardLevel.cum_trans_amt,jdbcType=DECIMAL},
+		#{wdCardLevel.sort,jdbcType=VARCHAR},
+		#{wdCardLevel.discount,jdbcType=DECIMAL},
+		#{wdCardLevel.deposit_level,jdbcType=DECIMAL},
+		#{wdCardLevel.loc_bac_url,jdbcType=VARCHAR},
+		#{wdCardLevel.background_pic_url,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<select id="selectCountByCondition" resultType="int">
+		SELECT count(*)
+		FROM wd_card_level
+		WHERE 
+		1=1
+		<if test="condition.card_id != null" >
+		   AND card_id = #{condition.card_id,jdbcType=VARCHAR}
+		</if>
+		<if test="condition.level != null" >
+		   AND level=#{condition.level, jdbcType=VARCHAR}
+		</if>
+	</select>
+
+	<select id="getCardLevelByPager" resultType="map">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM wd_card_level
+		WHERE 
+		1=1
+		<if test="condition.card_id != null" >
+		   AND card_id = #{condition.card_id,jdbcType=VARCHAR}
+		</if>
+		ORDER BY sort desc
+		<if test="offset != null" >
+		   LIMIT #{offset,jdbcType=INTEGER} , #{pageSize,jdbcType=INTEGER}
+		</if>
+		
+	</select>
+
+	<update id="updateByPrimaryKey" parameterType="cn.wandingkeji.card.entity.WdCardLevel">
+		update wd_card_level
+		<trim prefix="set" suffixOverrides=",">
+			<if test="wdCardLevel.level !=null"> level=#{wdCardLevel.level,jdbcType=VARCHAR},</if>
+			<if test="wdCardLevel.level_name !=null">level_name=#{wdCardLevel.level_name,jdbcType=VARCHAR},</if>
+			<if test="wdCardLevel.min_value !=null"> min_value=#{wdCardLevel.min_value,jdbcType=DECIMAL},</if>
+			<if test="wdCardLevel.max_value !=null"> max_value=#{wdCardLevel.max_value,jdbcType=DECIMAL},</if>
+			<if test="wdCardLevel.cum_trans_amt !=null"> cum_trans_amt=#{wdCardLevel.cum_trans_amt,jdbcType=DECIMAL},</if>
+			<if test="wdCardLevel.type !=null"> type=#{wdCardLevel.type,jdbcType=VARCHAR},</if>
+			<if test="wdCardLevel.comments !=null"> comments=#{wdCardLevel.comments,jdbcType=VARCHAR},</if>
+			<if test="wdCardLevel.discount !=null"> discount=#{wdCardLevel.discount,jdbcType=DECIMAL},</if>
+			<if test="wdCardLevel.sort !=null"> sort=#{wdCardLevel.sort,jdbcType=VARCHAR},</if>
+			<if test="wdCardLevel.deposit_level !=null"> deposit_level=#{wdCardLevel.deposit_level,jdbcType=VARCHAR},</if>
+			<if test="wdCardLevel.loc_bac_url !=null"> loc_bac_url=#{wdCardLevel.loc_bac_url,jdbcType=VARCHAR},</if>
+			<if test="wdCardLevel.background_pic_url !=null"> background_pic_url=#{wdCardLevel.background_pic_url,jdbcType=VARCHAR},</if>
+		</trim>
+		where id = #{wdCardLevel.id,jdbcType=INTEGER} AND mid = #{wdCardLevel.mid,jdbcType=INTEGER}
+	</update>
+	
+	<select id="selectLevelByPrimaryKey" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List" />
+		from wd_card_level
+		where id = #{condition.id,jdbcType=INTEGER} AND mid = #{condition.mid,jdbcType=INTEGER}
+	</select>
+	
+	<delete id="deleteLevelByPrimaryKey" parameterType="int">
+		delete from wd_card_level
+		where id = #{condition.id,jdbcType=INTEGER} AND mid = #{condition.mid,jdbcType=INTEGER}
+	</delete>
+	<select id="selectLevelByCumAmt" resultMap="BaseResultMap">
+		select
+		id,card_id,level,level_name,min_value,max_value,type,comments,creat_stamp,update_stamp,mid,cum_trans_amt,sort,discount,deposit_level,background_pic_url
+		from wd_card_level  where  mid = #{condition.mid,jdbcType=INTEGER}
+		<if test="condition.cum_trans_amt != null" >
+			and cum_trans_amt &lt;= #{condition.cum_trans_amt, jdbcType=DECIMAL}
+		</if>
+		order by sort desc limit 1
+	</select>
+	
+</mapper>

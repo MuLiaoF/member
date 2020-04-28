@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+	<mapper namespace="cn.wandingkeji.employee.mapper.EmployeeMapper">
+	<resultMap id="BaseResultMap" type="cn.wandingkeji.employee.entity.Employee">
+  	<id column="eid" jdbcType="INTEGER" property="eid" />
+	    <result column="mid" jdbcType="INTEGER" property="mid" />
+	    <result column="sid" jdbcType="INTEGER" property="sid" />
+	    <result column="merchant_no" jdbcType="VARCHAR" property="merchant_no" />
+	    <result column="terminal_id" jdbcType="VARCHAR" property="terminal_id" />
+	    <result column="ename" jdbcType="VARCHAR" property="ename" />
+	    <result column="pay_token" jdbcType="VARCHAR" property="pay_token" />
+	    <result column="reserve1" jdbcType="VARCHAR" property="reserve1" />
+	    <result column="reserve2" jdbcType="DECIMAL" property="reserve2" />
+	    <result column="create_time" jdbcType="TIMESTAMP" property="create_time" />
+	    <result column="update_time" jdbcType="TIMESTAMP" property="update_time" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		eid,mid, sid,merchant_no, terminal_id, ename, reserve1, reserve2, create_time,  update_time,pay_token
+	 </sql>
+	<sql id="Insert_Column_List">
+		mid, sid,merchant_no, terminal_id, ename, reserve1, reserve2, create_time,pay_token
+	 </sql>
+	 <insert id="insert" parameterType="cn.wandingkeji.employee.entity.Employee">
+	    insert into employee <include refid="Insert_Column_List" />
+	    values (#{employee.mid},#{employee.sid},#{employee.merchant_no},#{employee.terminal_id},#{employee.ename},
+	    #{employee.reserve1},#{employee.reserve2},#{employee.create_time},#{employee.pay_token})
+	 </insert>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from employee
+		where eid = #{id,jdbcType=INTEGER}
+	</select>
+	
+	<select id="selectBySidAndType" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from employee
+		where sid = #{sid,jdbcType=INTEGER} and reserve1 = #{eType,jdbcType=VARCHAR}
+	</select>
+
+	<select id="listBySid" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from employee
+		where sid = #{sid,jdbcType=INTEGER}
+	</select>
+	
+	<select id="selectByCondition" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List" />
+		from employee
+		where merchant_no = #{condition.merchantNo,jdbcType=VARCHAR}
+		and terminal_id = #{condition.terminalId,jdbcType=VARCHAR}
+	</select>
+    <select id="getSid" resultMap="BaseResultMap">
+		select  * from employee where terminal_id = #{terminId}
+	</select>
+</mapper>

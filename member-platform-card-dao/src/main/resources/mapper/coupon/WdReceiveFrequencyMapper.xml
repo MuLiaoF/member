@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.wandingkeji.coupon.mapper.WdReceiveFrequencyMapper">
+	<resultMap id="BaseResultMap" type="cn.wandingkeji.coupon.entity.WdReceiveFrequency">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="mid" property="mid" jdbcType="INTEGER" />
+		<result column="card_id" property="card_id" jdbcType="VARCHAR" />
+		<result column="code" property="code" jdbcType="VARCHAR" />
+		<result column="openid" property="openid" jdbcType="VARCHAR" />
+		<result column="openid_type" property="openid_type" jdbcType="VARCHAR" />
+		<result column="mem_id" property="mem_id" jdbcType="INTEGER" />
+		<result column="can_use_total" property="can_use_total" jdbcType="INTEGER" />
+		<result column="surplus_total" property="surplus_total" jdbcType="INTEGER" />
+		
+		<result column="creat_time" property="creat_time" jdbcType="TIMESTAMP" />
+		<result column="update_time" property="update_time" jdbcType="TIMESTAMP" />
+		<result column="reserve" property="reserve" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="VARCHAR" />
+		<result column="card_name" property="card_name" jdbcType="VARCHAR" />
+		
+		
+	</resultMap>
+	<sql id="Base_Column_List">
+		id,mid,card_id,code,openid,openid_type,mem_id,can_use_total,surplus_total,creat_time,update_time,reserve,status,card_name
+	</sql>
+	<sql id="Insert_Column_List">	
+		mid,card_id,code,openid,openid_type,mem_id,can_use_total,surplus_total,creat_time,update_time,reserve,status,card_name
+	</sql>
+	<!-- 查询次卡总数 -->
+	<select id="selectFrequencyCount" resultType="int">
+  		select count(*) from wd_receive_frequency
+  		where  mid=#{condition.mid, jdbcType=INTEGER} 
+  			<if test="condition.cardId != null">and	card_id=#{condition.cardId, jdbcType=VARCHAR}</if>
+	 		<if test="condition.code != null">and code= #{condition.code, jdbcType=VARCHAR}</if>
+	 		<if test="condition.openid != null">and openid = #{condition.openid, jdbcType=VARCHAR}</if>
+	 		<if test="condition.openid_type != null">and openid_type = #{condition.openid_type, jdbcType=VARCHAR}</if>
+	</select>
+	<!-- 分页查询 -->
+	<select id="getFrequencyByPager" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from wd_receive_frequency  where  mid=#{condition.mid, jdbcType=INTEGER} 
+        	<if test="condition.cardId != null">and	card_id=#{condition.cardId, jdbcType=VARCHAR}</if>
+	 		<if test="condition.code != null">and code= #{condition.code, jdbcType=VARCHAR}</if>
+	 		<if test="condition.openid != null">and openid = #{condition.openid, jdbcType=VARCHAR}</if>
+	 		<if test="condition.openid_type != null">and openid_type = #{condition.openid_type, jdbcType=VARCHAR}</if>
+         order by creat_time desc
+		limit #{offset, jdbcType=INTEGER} , #{pageSize, jdbcType=INTEGER}
+	</select>
+	
+	<resultMap type="java.util.Map" id="freCardMap" >
+		<result column="card_id" property="card_id" jdbcType="VARCHAR" />
+		<result column="coupon_name" property="coupon_name" jdbcType="VARCHAR" />
+		<result column="creat_time" property="creat_time" jdbcType="TIMESTAMP" />
+		<result column="update_time" property="update_time" jdbcType="TIMESTAMP" />
+		<result column="reserve" property="reserve" jdbcType="VARCHAR" />
+		<result column="numDay" property="numDay" jdbcType="INTEGER" />
+		<result column="numWriteOff" property="numWriteOff" jdbcType="INTEGER" />
+		<result column="initialTotal" property="initialTotal" jdbcType="INTEGER" />
+		<result column="surplus_total" property="surplus_total" jdbcType="INTEGER" />
+		<result column="avatarUrl" property="avatarUrl" jdbcType="VARCHAR" />
+	
+	</resultMap>
+	<select id="queryDeatilByCardOpenIdCode" resultMap="freCardMap"
+			parameterType="java.lang.String">
+		select  wfc.card_id,wfc.coupon_name,wfc.creat_time,
+		wfc.numDay,wfc.numWriteOff,wfc.avatarUrl,wfc.role ,wrf.surplus_total
+	 		from  wd_frequency_card wfc left join wd_receive_frequency  wrf on wfc.card_id = wrf.card_id 
+	 		 where  wfc.card_id=#{cardId, jdbcType=VARCHAR} 
+	 		 and wrf.openid=#{openid, jdbcType=VARCHAR} 
+	 		 and wrf.code=#{code, jdbcType=VARCHAR}
+	</select>
+	 
+	<!-- 根据id查询领取次卡信息 -->
+	<select id="selectById" resultMap="BaseResultMap" >
+		select  <include refid="Base_Column_List" />
+	 		from  wd_receive_frequency  where  id=#{id, jdbcType=INTEGER}
+	</select>
+	<!-- 根据CardId查询领取次卡信息 -->
+	<select id="selectByCardIdCodeOpenId" resultMap="BaseResultMap" >
+		select  <include refid="Base_Column_List" />
+	 		from   wd_receive_frequency  where  card_id=#{cardId, jdbcType=VARCHAR}
+	 		<if test="code != null">and code= #{code, jdbcType=VARCHAR}</if>
+	 		<if test="openid != null">and openid = #{openid, jdbcType=VARCHAR}</if>
+	</select>
+	<!-- 根据CardId查询领取次卡信息 -->
+	<select id="selectByContidion" resultMap="BaseResultMap" >
+		select  <include refid="Base_Column_List" />
+	 		from   wd_receive_frequency  where  mid=#{condition.mid, jdbcType=VARCHAR}
+	 		<if test="condition.cardId != null">and	card_id=#{condition.cardId, jdbcType=VARCHAR}</if>
+	 		<if test="condition.code != null">and code= #{condition.code, jdbcType=VARCHAR}</if>
+	 		<if test="condition.openid != null">and openid = #{condition.openid, jdbcType=VARCHAR}</if>
+	</select>
+	
+	<!-- 添加领取次卡信息 -->
+	<insert id="insert" parameterType="cn.wandingkeji.coupon.entity.WdReceiveFrequency" useGeneratedKeys="true"  keyProperty="coupon.id">
+		insert into wd_receive_frequency (
+			<include refid="Insert_Column_List" />
+		)
+		values (
+		#{coupon.mid},#{coupon.card_id},
+		#{coupon.code},#{coupon.openid},
+		#{coupon.openid_type},
+		#{coupon.mem_id},#{coupon.can_use_total},
+		#{coupon.surplus_total},
+		#{coupon.creat_time},#{coupon.update_time},
+		#{coupon.reserve},#{coupon.status},
+		#{coupon.card_name}
+		)
+	</insert>
+	<!-- 根据主键id更新领取次卡信息 -->
+	<update id="updateById" parameterType="cn.wandingkeji.coupon.entity.WdReceiveFrequency">
+		update wd_receive_frequency
+		 <trim prefix="set" suffixOverrides=",">
+		 	<if test="coupon.can_use_total != 0">can_use_total=#{coupon.can_use_total,jdbcType=INTEGER},</if>
+		 	<if test="coupon.mem_id != 0">mem_id=#{coupon.mem_id,jdbcType=INTEGER},</if>
+		 	<if test="coupon.card_id != null">card_id=#{coupon.card_id,jdbcType=VARCHAR},</if>
+		 	<if test="coupon.reserve != null">reserve=#{coupon.reserve,jdbcType=VARCHAR},</if>
+		 	<if test="coupon.status != null">status=#{coupon.status,jdbcType=VARCHAR},</if>
+		 	<if test="coupon.card_name != null">card_name=#{coupon.card_name,jdbcType=VARCHAR},</if>
+		 	<if test="coupon.surplus_total != 0">surplus_total=#{coupon.surplus_total,jdbcType=INTEGER},</if>
+		 </trim>
+		 where id = #{coupon.id,jdbcType=INTEGER}	
+	</update>
+	<!-- 根据主键id删除领取次卡信息 -->
+	<delete id="deleteById">
+		delete from wd_receive_frequency  where id = #{id,jdbcType=INTEGER}	
+	</delete>
+
+
+
+</mapper>

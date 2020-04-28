@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.wandingkeji.card.mapper.MerAndWxcardMapper">
+	<resultMap id="BaseResultMap" type="cn.wandingkeji.card.entity.MerAndWxcard">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="mid" property="mid" jdbcType="INTEGER" />
+		<result column="wx_card_id" property="wx_card_id" jdbcType="VARCHAR" />
+		<result column="card_name" property="card_name" jdbcType="VARCHAR" />
+		<result column="is_open" property="is_open" jdbcType="VARCHAR" />
+		<result column="create_time" property="create_time" jdbcType="TIMESTAMP" />
+	</resultMap>	
+	<sql id="Base_Column_List">
+     id,mid,wx_card_id,card_name,is_open,create_time
+	</sql>
+	
+	<sql id="Insert_Column_List">
+	 mid,wx_card_id,card_name,is_open,create_time
+	</sql>
+	
+	<insert id="insert" parameterType="cn.wandingkeji.card.entity.MerAndWxcard">
+		insert into mer_and_wxcard (
+		<include refid="Insert_Column_List" />
+		) 
+		values (#{merAndWxcard.mid},#{merAndWxcard.wx_card_id},#{merAndWxcard.card_name},#{merAndWxcard.is_open},
+		)
+	</insert>
+	
+	<update id="updateByPrimaryKey" parameterType="cn.wandingkeji.card.entity.MerAndWxcard">
+		update mer_and_wxcard
+		 <trim prefix="set" suffixOverrides=",">
+		 <if test="depositOrder.is_open!=null">is_open=#{depositOrder.is_open,jdbcType=VARCHAR},</if>
+		 </trim>
+		where id = #{merAndWxcard.id,jdbcType=INTEGER}
+	</update>
+
+	<select id="selectByMid" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from mer_and_wxcard
+		where mid = #{mid,jdbcType=INTEGER} and is_open = 'Y'
+	</select>
+
+
+	<resultMap id="MiniProgramsResultMap" type="cn.wandingkeji.card.entity.MiniPrograms">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="mid" property="mid" jdbcType="INTEGER" />
+		<result column="appid" property="appid" jdbcType="VARCHAR" />
+		<result column="appname" property="appname" jdbcType="VARCHAR" />
+		<result column="domain" property="domain" jdbcType="VARCHAR" />
+		<result column="webviewdomain" property="webviewdomain" jdbcType="VARCHAR" />
+		<result column="category" property="category" jdbcType="VARCHAR" />
+		<result column="auditid" property="auditid" jdbcType="VARCHAR" />
+		<result column="item_list" property="item_list" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="template_id" property="template_id" jdbcType="VARCHAR" />
+		<result column="version" property="version" jdbcType="VARCHAR" />
+		<result column="gmt_create" property="gmt_create" jdbcType="TIMESTAMP" />
+		<result column="gmt_modified" property="gmt_modified" jdbcType="TIMESTAMP" />
+		<result column="commit_time" property="commit_time" jdbcType="TIMESTAMP" />
+		<result column="reserve1" property="reserve1" jdbcType="VARCHAR" />
+		<result column="reserve2" property="reserve2" jdbcType="VARCHAR" />
+		<result column="reserve3" property="reserve3" jdbcType="VARCHAR" />
+	</resultMap>
+	<select id="getMiniProgramsByAppid" resultMap="MiniProgramsResultMap">
+		select
+		id,mid,appid,appname,domain,webviewdomain,category,auditid,item_list,status,template_id,version,gmt_create,commit_time,reserve1,reserve2,reserve3
+		from mini_programs where appid = #{condition.appid,jdbcType=VARCHAR} and reserve1 = "Y";
+	</select>
+	</mapper>

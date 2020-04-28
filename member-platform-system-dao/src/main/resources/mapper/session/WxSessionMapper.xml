@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="cn.wandingkeji.session.mapper.WxSessionMapper">
+	<resultMap id="BaseResultMap"
+		type="cn.wandingkeji.session.entity.WxSession">
+		<result column="id" jdbcType="INTEGER" property="id" />
+		<result column="appid" jdbcType="VARCHAR" property="appid" />
+		<result column="openid" jdbcType="VARCHAR" property="openid" />
+		<result column="session" jdbcType="VARCHAR" property="session" />
+		<result column="session_key" jdbcType="VARCHAR"
+			property="sessionKey" />
+		<result column="expires_in" jdbcType="INTEGER"
+			property="expiresIn" />
+		<result column="expires_time" jdbcType="DOUBLE"
+			property="expiresTime" />
+		<result column="gmt_create" jdbcType="TIMESTAMP"
+			property="gmtCreate" />
+		<result column="gmt_modified" jdbcType="TIMESTAMP"
+			property="gmtModified" />
+		<result column="reserve1" jdbcType="VARCHAR"
+			property="reserve1" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, appid, openid, session, session_key, expires_in,
+		expires_time,
+		gmt_create, gmt_modified,
+		reserve1
+	</sql>
+	<select id="selectByPrimaryKey"
+		parameterType="cn.wandingkeji.session.entity.WxSession"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from wx_session
+		where id = #{id,jdbcType=INTEGER}
+		and appid =
+		#{appid,jdbcType=VARCHAR}
+		and openid = #{openid,jdbcType=VARCHAR}
+	</select>
+
+	<select id="selectByAppIdAndOpenId" parameterType="map"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from wx_session
+		where
+		1=1
+		<if test="appid != null">
+			AND appid = #{appid,jdbcType=VARCHAR}
+		</if>
+		<if test="openid != null">
+			AND openid = #{openid,jdbcType=VARCHAR}
+		</if>
+	</select>
+
+	<select id="selectBySession" parameterType="map"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from wx_session
+		where session = #{session,jdbcType=VARCHAR}
+	</select>
+
+	<delete id="deleteByPrimaryKey"
+		parameterType="cn.wandingkeji.session.entity.WxSession">
+		delete from
+		wx_session
+		where id = #{id,jdbcType=INTEGER}
+		and appid =
+		#{appid,jdbcType=VARCHAR}
+		and openid =
+		#{openid,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert"
+		parameterType="cn.wandingkeji.session.entity.WxSession">
+		insert into wx_session (id,
+		appid, openid,
+		session,
+		session_key, expires_in,
+		expires_time,
+		gmt_create, gmt_modified,
+		reserve1)
+		values (#{id,jdbcType=INTEGER},
+		#{appid,jdbcType=VARCHAR},
+		#{openid,jdbcType=VARCHAR},
+		#{session,jdbcType=VARCHAR},
+		#{sessionKey,jdbcType=VARCHAR},
+		#{expiresIn,jdbcType=INTEGER},
+		#{expiresTime,jdbcType=INTEGER},
+		#{gmtCreate,jdbcType=TIMESTAMP},
+		#{gmtModified,jdbcType=TIMESTAMP},
+		#{reserve1,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective"
+		parameterType="cn.wandingkeji.session.entity.WxSession">
+		insert into wx_session
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="appid != null">
+				appid,
+			</if>
+			<if test="openid != null">
+				openid,
+			</if>
+			<if test="session != null">
+				session,
+			</if>
+			<if test="sessionKey != null">
+				session_key,
+			</if>
+			<if test="expiresIn != null">
+				expires_in,
+			</if>
+			<if test="expiresTime != null">
+				expires_time,
+			</if>
+			<if test="gmtCreate != null">
+				gmt_create,
+			</if>
+			<if test="gmtModified != null">
+				gmt_modified,
+			</if>
+			<if test="reserve1 != null">
+				reserve1,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="appid != null">
+				#{appid,jdbcType=VARCHAR},
+			</if>
+			<if test="openid != null">
+				#{openid,jdbcType=VARCHAR},
+			</if>
+			<if test="session != null">
+				#{session,jdbcType=VARCHAR},
+			</if>
+			<if test="sessionKey != null">
+				#{sessionKey,jdbcType=VARCHAR},
+			</if>
+			<if test="expiresIn != null">
+				#{expiresIn,jdbcType=INTEGER},
+			</if>
+			<if test="expiresTime != null">
+				#{expiresTime,jdbcType=INTEGER},
+			</if>
+			<if test="gmtCreate != null">
+				#{gmtCreate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="gmtModified != null">
+				#{gmtModified,jdbcType=TIMESTAMP},
+			</if>
+			<if test="reserve1 != null">
+				#{reserve1,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="cn.wandingkeji.session.entity.WxSession">
+		update wx_session
+		<set>
+			<if test="session != null">
+				session = #{session,jdbcType=VARCHAR},
+			</if>
+			<if test="sessionKey != null">
+				session_key = #{sessionKey,jdbcType=VARCHAR},
+			</if>
+			<if test="expiresIn != null">
+				expires_in = #{expiresIn,jdbcType=INTEGER},
+			</if>
+			<if test="expiresTime != null">
+				expires_time = #{expiresTime,jdbcType=INTEGER},
+			</if>
+			<if test="gmtCreate != null">
+				gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="gmtModified != null">
+				gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+			</if>
+			<if test="reserve1 != null">
+				reserve1 = #{reserve1,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="cn.wandingkeji.session.entity.WxSession">
+		update wx_session
+		set session =
+		#{session,jdbcType=VARCHAR},
+		session_key =
+		#{sessionKey,jdbcType=VARCHAR},
+		expires_in =
+		#{expiresIn,jdbcType=INTEGER},
+		expires_time =
+		#{expiresTime,jdbcType=INTEGER},
+		gmt_create =
+		#{gmtCreate,jdbcType=TIMESTAMP},
+		gmt_modified =
+		#{gmtModified,jdbcType=TIMESTAMP},
+		<if test="reserve1 != null">
+			reserve1 = #{reserve1,jdbcType=VARCHAR},
+		</if>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+
+	<update id="updateByAppIdAndOpenId" parameterType="map">
+		update wx_session
+		<set>
+			<if test="session != null">
+				session = #{session,jdbcType=VARCHAR},
+			</if>
+			<if test="sessionKey != null">
+				session_key = #{sessionKey,jdbcType=VARCHAR},
+			</if>
+			<if test="expiresIn != null">
+				expires_in = #{expiresIn,jdbcType=INTEGER},
+			</if>
+			<if test="expiresTime != null">
+				expires_time = #{expiresTime,jdbcType=INTEGER},
+			</if>
+			<if test="gmtCreate != null">
+				gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="gmtModified != null">
+				gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+			</if>
+			<if test="reserve1 != null">
+				reserve1 = #{reserve1,jdbcType=VARCHAR},
+			</if>
+		</set>
+		<where>
+			appid = #{appid,jdbcType=VARCHAR}
+			and
+			openid =
+			#{openid,jdbcType=VARCHAR}
+		</where>
+	</update>
+
+	<select id="findWxSessionByMiniOpenId" resultType="map">
+		select
+		id, appid, openid, session, session_key, expires_in,
+		expires_time,
+		gmt_create, gmt_modified,
+		reserve1
+		from wx_session
+		where
+		1=1
+		<if test="appid != null">
+			AND appid = #{appid,jdbcType=VARCHAR}
+		</if>
+		<if test="openid != null">
+			AND openid = #{openid,jdbcType=VARCHAR}
+		</if>
+	</select>
+
+</mapper>

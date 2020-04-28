@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.wandingkeji.member.mapper.WdMemBonTransMapper">
+	<resultMap id="BaseResultMap" type="cn.wandingkeji.member.entity.WdMemBonTrans">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="bal_trans_id" property="bal_trans_id" jdbcType="INTEGER" />
+		<result column="bonus_id" property="bonus_id" jdbcType="INTEGER" />
+		<result column="member_id" property="member_id" jdbcType="INTEGER" />
+		<result column="trans_date" property="trans_date" jdbcType="TIMESTAMP" />
+		<result column="entry_date" property="entry_date" jdbcType="TIMESTAMP" />
+		<result column="amount" property="amount" jdbcType="DECIMAL" />
+	    <result column="order_id" property="order_id" jdbcType="VARCHAR" />
+		<result column="order_item_id" property="order_item_id" jdbcType="VARCHAR" />
+		<result column="reason_id" property="reason_id" jdbcType="VARCHAR" />
+		<result column="comments" property="comments" jdbcType="VARCHAR" />
+		<result column="creat_stamp" property="creat_stamp" jdbcType="TIMESTAMP" />
+		<result column="update_stamp" property="update_stamp" jdbcType="TIMESTAMP" />
+		<result column="bouns" property="bouns" jdbcType="DECIMAL" />
+		<result column="discount_amt" property="discount_amt" jdbcType="DECIMAL" />
+		<result column="trans_type" property="trans_type" jdbcType="VARCHAR" />
+		<result column="pay_channel" property="pay_channel" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="VARCHAR" />
+		<result column="account_bouns" property="account_bouns" jdbcType="DECIMAL" />
+		<result column="account_balance" property="account_balance" jdbcType="DECIMAL" />
+		<result column="coupon_id" property="coupon_id" jdbcType="VARCHAR" />
+		<result column="coupon_amt" property="coupon_amt" jdbcType="DECIMAL" />
+		<result column="bouns_deduction" property="bouns_deduction" jdbcType="DECIMAL" />
+		<result column="mid" property="mid" jdbcType="INTEGER" />
+		<result column="sid" property="sid" jdbcType="INTEGER" />
+		<result column="eid" property="eid" jdbcType="INTEGER" />
+		<result column="discount" property="discount" jdbcType="DECIMAL" />
+		<result column="order_type" property="order_type" jdbcType="VARCHAR" />
+		<result column="parent_id" property="parent_id" jdbcType="INTEGER" />
+
+
+	</resultMap>
+		<sql id="Base_Column_List">
+    id,bal_trans_id,bonus_id,member_id,trans_date,entry_date,amount,order_id,order_item_id,reason_id,comments,creat_stamp,update_stamp,
+    bouns,discount_amt,trans_type,pay_channel,status,account_bouns,account_balance,coupon_id,coupon_amt,bouns_deduction,mid,sid,eid,discount,order_type,parent_id
+	</sql>
+	
+	<sql id="Insert_Column_List">
+	  bal_trans_id,bonus_id,member_id,trans_date,entry_date,amount,order_id,order_item_id,reason_id,comments,creat_stamp,update_stamp,bouns,discount_amt,trans_type,pay_channel,status
+	  ,account_bouns,account_balance,coupon_id,coupon_amt,bouns_deduction,mid,sid,eid,discount,order_type,parent_id
+	</sql>
+	
+	<insert id="insert" useGeneratedKeys="true"  keyProperty="wdMemBonTrans.id">
+		insert into wd_mem_bon_trans (
+		<include refid="Insert_Column_List" />
+		)
+		values (#{wdMemBonTrans.bal_trans_id},#{wdMemBonTrans.bonus_id},#{wdMemBonTrans.member_id},#{wdMemBonTrans.trans_date},#{wdMemBonTrans.entry_date},
+		#{wdMemBonTrans.amount},#{wdMemBonTrans.order_id},#{wdMemBonTrans.order_item_id},#{wdMemBonTrans.reason_id},#{wdMemBonTrans.comments},
+		#{wdMemBonTrans.creat_stamp},#{wdMemBonTrans.update_stamp},#{wdMemBonTrans.bouns},#{wdMemBonTrans.discount_amt},#{wdMemBonTrans.trans_type}
+		,#{wdMemBonTrans.pay_channel},#{wdMemBonTrans.status},#{wdMemBonTrans.account_bouns},#{wdMemBonTrans.account_balance},#{wdMemBonTrans.coupon_id},#{wdMemBonTrans.coupon_amt}
+		,#{wdMemBonTrans.bouns_deduction},#{wdMemBonTrans.mid},#{wdMemBonTrans.sid},#{wdMemBonTrans.eid},#{wdMemBonTrans.discount},#{wdMemBonTrans.order_type},#{wdMemBonTrans.parent_id})
+	
+	</insert>
+	
+	<update id="updateByPrimaryKey" parameterType="cn.wandingkeji.member.entity.WdMemBonTrans">
+		update wd_mem_bon_trans
+		 <trim prefix="set" suffixOverrides=",">
+		 <if test="wdMemBonTrans.status!=null">status=#{wdMemBonTrans.status,jdbcType=VARCHAR},</if>
+	     <if test="wdMemBonTrans.bal_trans_id!=null">bal_trans_id=#{wdMemBonTrans.bal_trans_id,jdbcType=INTEGER},</if>
+	     <if test="wdMemBonTrans.bonus_id!=null">bonus_id=#{wdMemBonTrans.bonus_id,jdbcType=INTEGER},</if>
+	     <if test="wdMemBonTrans.account_bouns!=null">account_bouns=#{wdMemBonTrans.account_bouns,jdbcType=DECIMAL},</if>
+	     <if test="wdMemBonTrans.account_balance!=null">account_balance=#{wdMemBonTrans.account_balance,jdbcType=DECIMAL},</if>
+	     <if test="wdMemBonTrans.bouns!=null">bouns=#{wdMemBonTrans.bouns,jdbcType=DECIMAL}</if>
+		  </trim>
+		where  id = #{wdMemBonTrans.id,jdbcType=INTEGER}
+	</update>
+	<select id="selectByOrderId" resultMap="BaseResultMap">
+		select *  from wd_mem_bon_trans
+		where order_id = #{condition.order_id,jdbcType=VARCHAR}
+		<if test="condition.reason_id !=null" >
+		   and reason_id = #{condition.reason_id, jdbcType=VARCHAR}
+		</if>
+	</select>
+	<!-- 根据bal_trans_id -->
+	<select id="selectById" resultMap="BaseResultMap">
+		select *  from wd_mem_bon_trans
+		where  id = #{id,jdbcType=INTEGER}
+	</select>
+	<select id="selectByCondition" resultMap="BaseResultMap">
+		select *  from wd_mem_bon_trans
+		where   
+		 order_id = #{condition.order_id,jdbcType=VARCHAR}
+		<if test="condition.member_id !=null" >
+		   and member_id = #{condition.member_id, jdbcType=INTEGER}
+		</if>
+	</select>
+	
+	
+	<select id="selectTransCount" resultMap="bounsDetailMap">
+  		select count(*) as countRow from  wd_mem_bon_trans  where  
+  		member_id = #{condition.memberId, jdbcType=INTEGER}
+		
+		<if test="condition.reasonId !=null" >
+		   and reason_id = #{condition.reasonId, jdbcType=VARCHAR}
+		</if>
+		 and status = 1
+	</select>
+	<resultMap id="accTransMap" type="java.util.Map">
+	<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="account_id" property="account_id" jdbcType="INTEGER" />
+		<result column="member_id" property="member_id" jdbcType="INTEGER" />
+		<result column="trans_date" property="trans_date" jdbcType="TIMESTAMP" />
+		<result column="entry_date" property="entry_date" jdbcType="TIMESTAMP" />
+		<result column="amount" property="amount" jdbcType="DECIMAL" />
+	    <result column="order_id" property="order_id" jdbcType="VARCHAR" />
+		<result column="order_item_id" property="order_item_id" jdbcType="VARCHAR" />
+		<result column="reason_id" property="reason_id" jdbcType="VARCHAR" />
+		<result column="comments" property="comments" jdbcType="VARCHAR" />
+		<result column="creat_stamp" property="creat_stamp" jdbcType="TIMESTAMP" />
+		<result column="update_stamp" property="update_stamp" jdbcType="TIMESTAMP" />
+		<result column="bouns" property="bouns" jdbcType="DECIMAL" />
+		<result column="discount_amt" property="discount_amt" jdbcType="DECIMAL" />
+		<result column="trans_type" property="trans_type" jdbcType="VARCHAR" />
+		<result column="pay_channel" property="pay_channel" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="VARCHAR" />
+		<result column="account_bouns" property="account_bouns" jdbcType="DECIMAL" />
+		<result column="account_balance" property="account_balance" jdbcType="DECIMAL" />
+		<result column="coupon_id" property="coupon_id" jdbcType="VARCHAR" />
+		<result column="coupon_amt" property="coupon_amt" jdbcType="DECIMAL" />
+		<result column="bouns_deduction" property="bouns_deduction" jdbcType="DECIMAL" />
+	    <result column="account_num" property="account_num" jdbcType="VARCHAR" />
+	    <result column="card_id" property="card_id" jdbcType="VARCHAR" />
+	    <result column="account_name" property="account_name" jdbcType="VARCHAR" />
+	    <result column="account_num" property="account_num" jdbcType="VARCHAR" />
+	    <result column="mid" property="mid" jdbcType="INTEGER" />
+	    <result column="sid" property="mid" jdbcType="INTEGER" />
+		<result column="eid" property="mid" jdbcType="INTEGER" />
+		<result column="discount" property="discount" jdbcType="DECIMAL" />
+		<result column="store_name" property="store_name" jdbcType="VARCHAR" />
+	</resultMap>
+	<select id="getAccTransByPager" resultMap="BaseResultMap">
+	
+		select * from  wd_mem_bon_trans   where  
+  		member_id = #{condition.memberId, jdbcType=INTEGER}
+		
+		<if test="condition.reasonId !=null" >
+		   and reason_id = #{condition.reasonId, jdbcType=VARCHAR}
+		</if>
+		 and status = 1
+         order by  creat_stamp desc
+         <if test="condition.isAllPage == null" >
+		limit #{offset, jdbcType=INTEGER} , #{pageSize, jdbcType=INTEGER}
+		</if>
+	</select>
+	<resultMap id="bounsDetailMap" type="java.util.Map">
+        <id column="acc_trans_id" property="acc_trans_id" jdbcType="INTEGER" />
+		<result column="countRow" property="countRow" jdbcType="INTEGER" />
+		<result column="account_id" property="account_id" jdbcType="INTEGER" />
+		<result column="trans_type" property="trans_type" jdbcType="VARCHAR" />
+		<result column="amount" property="amount" jdbcType="DECIMAL" />
+		<result column="comments" property="comments" jdbcType="VARCHAR" />
+		<result column="bouns" property="bouns" jdbcType="DECIMAL" />
+		<result column="status" property="status" jdbcType="VARCHAR" />
+		<result column="trans_date" property="trans_date" jdbcType="TIMESTAMP" />
+		<result column="creat_time" property="creat_stamp" jdbcType="VARCHAR" />
+    </resultMap>
+	
+	<select id="selectBounsDetail" resultMap="bounsDetailMap">
+		select
+		 acc_trans_id,account_id,trans_type,amount,comments,bouns,status,trans_date,date_format(creat_stamp, '%Y-%m-%d %H:%i:%s')  as creat_time 
+		from wd_mem_bon_trans  where  1=1 and bouns !=0
+		<if test="condition.account_id !=null" >
+  		   and account_id = #{condition.account_id, jdbcType=VARCHAR}
+  		 </if>
+  		<if test="condition.trans_type !=null" >
+  			 and trans_type = #{condition.trans_type, jdbcType=VARCHAR}
+  		</if>
+  		<if test="condition.status !=null" >
+  			 and status = #{condition.status, jdbcType=VARCHAR}
+  		</if>
+  		<if test="condition.order_type !=null" >
+  			  and order_type = #{condition.order_type, jdbcType=VARCHAR}
+  		</if>
+         order by  creat_stamp desc
+		limit #{offset, jdbcType=INTEGER} , #{pageSize, jdbcType=INTEGER}
+	</select>
+	
+	<select id="getAllIntoTrans" resultMap="accTransMap">
+	    select * from wd_mem_bon_trans t LEFT JOIN wd_mem_branch  a ON  t.bonus_id=a.id where 
+	    t.status=1 and (t.reason_id='1' or (t.reason_id='2' and t.pay_channel='vip')) and trans_date = #{condition.trans_date, jdbcType=TIMESTAMP}
+		
+	</select>
+	<resultMap id="TransMapToPhone" type="java.util.Map">
+	    <result column="account_id" property="account_id" jdbcType="VARCHAR" />
+		<result column="member_id" property="member_id" jdbcType="VARCHAR" />
+		<result column="amount" property="amount" jdbcType="DECIMAL" />
+		<result column="bouns" property="bouns" jdbcType="DECIMAL" />
+		<result column="discount" property="discount" jdbcType="DECIMAL" />
+		<result column="creat_time" property="creat_stamp" jdbcType="VARCHAR" />
+	</resultMap>
+	<select id="getTrasnsCountToPhone" resultType="java.util.Map">
+		select count(*) as countRow from  wd_mem_bon_trans 
+  		where  account_id = #{condition.account_id, jdbcType=VARCHAR} 
+		<if test="condition.mid !=null" >
+		   and mid = #{condition.mid, jdbcType=INTEGER}
+		</if>
+		<if test="condition.pay_channel !=null" >
+  			 and pay_channel = #{condition.pay_channel, jdbcType=VARCHAR}
+  		</if>
+  		<if test="condition.trans_type !=null" >
+  			 and trans_type = #{condition.trans_type, jdbcType=VARCHAR}
+  		</if>
+		<if test="condition.status !=null" >
+  			 and status = #{condition.status, jdbcType=VARCHAR}
+  		</if>
+  		<if test="condition.reason_id !=null" >
+  			 and reason_id = #{condition.reason_id, jdbcType=VARCHAR}
+  		</if>
+  		<if test="condition.isbouns !=null" >
+  			 and bouns !=0
+  		</if>
+  		<if test="condition.isAmount ==null" >
+  			 and amount !=0.00
+  		</if>
+  		<if test="condition.order_type !=null" >
+  			  and order_type = #{condition.order_type, jdbcType=VARCHAR}
+  		</if>
+  		
+	</select>
+	<!-- 个人中心查询消费记录 -->
+	<select id="getAccTransToPhone" resultMap="TransMapToPhone">
+		select account_id,member_id,amount,bouns,discount,date_format(creat_stamp, '%Y-%m-%d %H:%i:%s')  as creat_time 
+		 
+		from wd_mem_bon_trans  where  account_id = #{condition.account_id, jdbcType=VARCHAR} 
+		<if test="condition.mid !=null" >
+		   and mid = #{condition.mid, jdbcType=INTEGER}
+		</if>
+		<if test="condition.pay_channel !=null" >
+  			 and pay_channel = #{condition.pay_channel, jdbcType=VARCHAR}
+  		</if>
+  		<if test="condition.trans_type !=null" >
+  			 and trans_type = #{condition.trans_type, jdbcType=VARCHAR}
+  		</if>
+		<if test="condition.status !=null" >
+  			 and status = #{condition.status, jdbcType=VARCHAR}
+  		</if>
+  		<if test="condition.reason_id !=null" >
+  			 and reason_id = #{condition.reason_id, jdbcType=VARCHAR}
+  		</if>
+  		<if test="condition.isAmount ==null" >
+  			 and amount !=0.00
+  		</if>
+  		<if test="condition.order_type !=null" >
+  			  and order_type = #{condition.order_type, jdbcType=VARCHAR}
+  		</if>
+         order by  creat_stamp desc
+         <if test="condition.isAllPage == null" >
+		limit #{offset, jdbcType=INTEGER} , #{pageSize, jdbcType=INTEGER}
+		</if>
+		
+	</select>
+	<select id="selectOneByOrderId" resultMap="BaseResultMap">
+		select *  from wd_mem_bon_trans where order_id = #{orderId,jdbcType=VARCHAR}
+	</select>
+	
+</mapper>

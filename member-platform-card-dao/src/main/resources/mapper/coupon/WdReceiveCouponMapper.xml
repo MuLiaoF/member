@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.wandingkeji.coupon.mapper.WdReceiveCouponMapper">
+  <resultMap id="BaseResultMap" type="cn.wandingkeji.coupon.entity.WdReceiveCoupon">
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="mid" jdbcType="INTEGER" property="mid" />
+    <result column="card_id" jdbcType="VARCHAR" property="card_id" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="open_id" jdbcType="VARCHAR" property="open_id" />
+    <result column="is_give_by_friend" jdbcType="VARCHAR" property="is_give_by_friend" />
+    <result column="friend_open_id" jdbcType="VARCHAR" property="friend_open_id" />
+    <result column="outer_str" jdbcType="VARCHAR" property="outer_str" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="create_time" />
+    <result column="start_time" jdbcType="TIMESTAMP" property="start_time" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="end_time" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="update_time" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="logo_url" jdbcType="VARCHAR" property="logo_url" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="store_name" jdbcType="VARCHAR" property="store_name" />
+    <result column="check_openid" jdbcType="VARCHAR" property="check_openid" />
+    <result column="consume_source" jdbcType="VARCHAR" property="consume_source" />
+    <result column="use_time" jdbcType="TIMESTAMP" property="use_time" />
+    <result column="unionid" jdbcType="VARCHAR" property="unionid" />
+    <result column="order_id" jdbcType="VARCHAR" property="order_id" />
+  </resultMap>
+  
+   <sql id="Base_Column_List">
+		id,mid,card_id,code,open_id,
+		is_give_by_friend,outer_str,status,create_time,start_time,end_time,update_time,
+		title,logo_url,description,store_name,check_openid,consume_source,use_time,unionid,order_id
+  </sql>
+  
+  
+  	<!-- 查询领券总数 -->
+	<select id="selectReceiveCouponCount" resultType="int">
+  		select count(*) from wd_receive_coupon  wrc 
+		left join wd_platform_coupon wpc  on wrc.card_id = wpc.third_card_id
+		left join wd_wx_coupon wwc on  wrc.card_id=wwc.wxcard_id 
+		where   unionid=#{condition.unionid, jdbcType=VARCHAR} 
+  			<if test="condition.cardId != null">and	card_id=#{condition.cardId, jdbcType=VARCHAR}</if>
+	 		<if test="condition.code != null">and code= #{condition.code, jdbcType=VARCHAR}</if>
+	 		<if test="condition.status != null">and wrc.status= #{condition.status, jdbcType=VARCHAR}</if>
+		    <if test="condition.mid != null">and wrc.mid= #{condition.mid, jdbcType=INTEGER}</if>
+	</select>
+
+
+	<!-- TODO -->
+	<!--
+	<resultMap id="ReceiveCouponMap" type="com.weupay.member.dao.comm.MyCouponResp">
+	    <result column="id" jdbcType="INTEGER" property="id" />
+	    <result column="mid" jdbcType="INTEGER" property="mid" />
+	    <result column="card_id" jdbcType="VARCHAR" property="card_id" />
+	    <result column="code" jdbcType="VARCHAR" property="code" />
+        <result column="status" jdbcType="VARCHAR" property="status" />
+        <result column="open_id" jdbcType="VARCHAR" property="open_id" />
+	    <result column="create_time" jdbcType="TIMESTAMP" property="create_time" />
+	    <result column="begin_time" jdbcType="TIMESTAMP" property="begin_time" />
+	    <result column="end_time" jdbcType="TIMESTAMP" property="end_time" />
+	    <result column="date_info" jdbcType="VARCHAR" property="date_info" />
+	    <result column="fixed_begin_term" jdbcType="INTEGER" property="fixed_begin_term" />
+	    <result column="fixed_term" jdbcType="INTEGER" property="fixed_term" />
+	    <result column="title" jdbcType="VARCHAR" property="title" />
+	    <result column="logo_url" jdbcType="VARCHAR" property="logo_url" />
+	    <result column="rolu_info" jdbcType="VARCHAR" property="rolu_info" />
+	 </resultMap>-->
+	 
+	 <select id="selectByCode" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from wd_receive_coupon
+		where code = #{condition.code,jdbcType=VARCHAR}
+		<if test="condition.card_id != null" >
+  			 and card_id = #{condition.card_id, jdbcType=VARCHAR}
+  		</if>
+	</select>
+	<!-- 领券分页查询 -->
+	<!-- TODO -->
+	<!--<select id="getReceiveCouponByPager" resultMap="ReceiveCouponMap">
+ 		select wrc.card_id,wrc.code,wrc.open_id,wrc.status,wrc.create_time,wwc.date_info, wwc.fixed_term,wwc.fixed_begin_term,
+ 		wwc.begin_time,wwc.end_time, wpc.title,wpc.logo_url, wpc.rolu_info from wd_receive_coupon  wrc  left join 
+		wd_platform_coupon wpc  on wrc.card_id = wpc.third_card_id left join wd_wx_coupon wwc on  wrc.card_id=wwc.wxcard_id 
+		where  wrc.unionid=#{condition.unionid, jdbcType=VARCHAR} 
+			<if test="condition.cardId != null">and	card_id=#{condition.cardId, jdbcType=VARCHAR}</if>
+	 		<if test="condition.code != null">and code= #{condition.code, jdbcType=VARCHAR}</if>
+	 		<if test="condition.status != null">and wrc.status= #{condition.status, jdbcType=VARCHAR}</if>
+			<if test="condition.mid != null">and wrc.mid= #{condition.mid, jdbcType=INTEGER}</if>
+		order by  wrc.create_time desc
+		limit #{offset, jdbcType=INTEGER} , #{pageSize, jdbcType=INTEGER}
+	</select>-->
+  	<!-- 核销券的数量 -->
+    <select id="selectCouponCount" resultType="int">
+  		select count(*) from wd_coupon 
+  		where  mid=#{condition.mid, jdbcType=INTEGER} and status='2'
+  		
+  		<if test="condition.title!= null" >
+  			 and title = #{condition.title, jdbcType=VARCHAR}
+  		</if>
+  		<if test="condition.code!= null" >
+  			 and code = #{condition.code, jdbcType=VARCHAR}
+  		</if>
+	 </select>
+	 <!-- 核销券的分页查询 -->
+	 <select id="getCouponByPager" resultMap="BaseResultMap">
+			select
+			 * 
+		 	from wd_coupon  where  mid=#{condition.mid, jdbcType=INTEGER} and status='2'
+		   
+	  		<if test="condition.title!= null" >
+	  			 and title = #{condition.title, jdbcType=VARCHAR}
+	  		</if>
+	  		<if test="condition.code!= null" >
+	  			 and code = #{condition.code, jdbcType=VARCHAR}
+	  		</if>
+	         order by create_time desc
+			limit #{offset, jdbcType=INTEGER} , #{pageSize, jdbcType=INTEGER}
+	 </select>
+  
+  <!-- 根据id查询领取券信息 -->
+	<select id="selectById" resultMap="BaseResultMap" >
+		select  <include refid="Base_Column_List" />
+	 		from  wd_receive_coupon  where  id=#{id, jdbcType=INTEGER}
+	</select>
+	<select id="selectByCodeCardId" resultMap="BaseResultMap" parameterType="cn.wandingkeji.coupon.entity.WdReceiveCoupon" >
+		select  <include refid="Base_Column_List" />
+	 		from  wd_receive_coupon  where  
+	 		status=#{status, jdbcType=VARCHAR}
+	 		and code = #{code, jdbcType=VARCHAR}
+	 		and card_id = #{card_id, jdbcType=VARCHAR}
+	</select>
+	<select id="selectByCodeCardId2" resultMap="BaseResultMap" parameterType="java.util.Map" >
+		select  <include refid="Base_Column_List" />
+	 		from  wd_receive_coupon  where  
+	 		status=#{couponMap.status, jdbcType=VARCHAR}
+	 		and code = #{couponMap.code, jdbcType=VARCHAR}
+	 		and card_id = #{couponMap.card_id, jdbcType=VARCHAR}
+	</select>
+	<!--根据订单id获取卡券领取信息-->
+    <select id="selectByorderId" resultMap="BaseResultMap">
+		select  *
+		from  wd_receive_coupon  where
+		order_id = #{orderId, jdbcType=VARCHAR}
+	</select>
+    <!-- 根据主键id更新领取券信息 -->
+	<update id="updateById" parameterType="cn.wandingkeji.coupon.entity.WdReceiveCoupon">
+		update wd_receive_coupon
+		 <trim prefix="set" suffixOverrides=",">
+		 	<if test="coupon.card_id != null">card_id=#{coupon.card_id,jdbcType=VARCHAR},</if>
+		 	<if test="coupon.code != null">code=#{coupon.code,jdbcType=VARCHAR},</if>
+		 	<if test="coupon.open_id != null">open_id=#{coupon.open_id,jdbcType=VARCHAR},</if>
+		 	<if test="coupon.is_give_by_friend != null">is_give_by_friend=#{coupon.is_give_by_friend,jdbcType=VARCHAR},</if>
+		 	<if test="coupon.outer_str != null">outer_str=#{coupon.outer_str,jdbcType=VARCHAR},</if>
+		 	<if test="coupon.status != null">status=#{coupon.status,jdbcType=VARCHAR},</if>
+		 	<if test="coupon.title != null">title=#{coupon.title,jdbcType=VARCHAR},</if>
+		 	<if test="coupon.logo_url != null">logo_url=#{coupon.logo_url,jdbcType=VARCHAR},</if>
+		 	<if test="coupon.description != null">description=#{coupon.description,jdbcType=VARCHAR},</if>
+		 	<if test="coupon.store_name != null">store_name=#{coupon.store_name,jdbcType=VARCHAR},</if>
+		 	<if test="coupon.check_openid != null">check_openid=#{coupon.check_openid,jdbcType=VARCHAR},</if>
+		 	<if test="coupon.check_openid != null">check_openid=#{coupon.check_openid,jdbcType=VARCHAR},</if>
+		 	<if test="coupon.consume_source != null">consume_source=#{coupon.consume_source,jdbcType=VARCHAR},</if>
+		 	<if test="coupon.unionid != null">unionid=#{coupon.unionid,jdbcType=VARCHAR},</if>
+		 </trim>
+		 where id = #{coupon.id,jdbcType=INTEGER}	
+	</update>
+	<update id="updateOldCoupoStatus">
+		UPDATE wd_receive_coupon set status =  #{status,jdbcType=VARCHAR} where code = #{oldUserCardCode,jdbcType=VARCHAR};
+	</update>
+	<!-- 根据主键id删除领取券信息 -->
+	<delete id="deleteById">
+		delete from wd_receive_coupon  where id = #{id,jdbcType=INTEGER}	
+	</delete>
+  <!-- 添加领取会员卡信息 -->
+  
+  <insert id="insert" parameterType="cn.wandingkeji.coupon.entity.WdReceiveCoupon">
+    insert into wd_receive_coupon (mid, card_id, code, 
+      open_id, is_give_by_friend, friend_open_id, 
+      outer_str, status, create_time, 
+      start_time, end_time, update_time, 
+      title, logo_url, description, 
+      store_name, check_openid, consume_source, 
+      use_time,unionid,order_id)
+    values (
+    	  #{coupon.mid,jdbcType=INTEGER}, #{coupon.card_id,jdbcType=VARCHAR}, #{coupon.code,jdbcType=VARCHAR}, 
+	      #{coupon.open_id,jdbcType=VARCHAR}, #{coupon.is_give_by_friend,jdbcType=VARCHAR}, #{coupon.friend_open_id,jdbcType=VARCHAR}, 
+	      #{coupon.outer_str,jdbcType=VARCHAR}, #{coupon.status,jdbcType=VARCHAR}, #{coupon.create_time,jdbcType=TIMESTAMP}, 
+	      #{coupon.start_time,jdbcType=TIMESTAMP}, #{coupon.end_time,jdbcType=TIMESTAMP}, #{coupon.update_time,jdbcType=TIMESTAMP}, 
+	      #{coupon.title,jdbcType=VARCHAR}, #{coupon.logo_url,jdbcType=VARCHAR}, #{coupon.description,jdbcType=VARCHAR}, 
+	      #{coupon.store_name,jdbcType=VARCHAR}, #{coupon.check_openid,jdbcType=VARCHAR}, #{coupon.consume_source,jdbcType=VARCHAR}, 
+	      #{coupon.use_time,jdbcType=TIMESTAMP},
+	      #{coupon.unionid,jdbcType=VARCHAR},
+	      #{coupon.order_id,jdbcType=VARCHAR}
+	      )
+  </insert>
+ 
+</mapper>

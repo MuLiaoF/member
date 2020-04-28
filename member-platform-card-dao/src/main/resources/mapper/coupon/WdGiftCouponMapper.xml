@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.wandingkeji.coupon.mapper.WdGiftCouponMapper">
+	<resultMap id="BaseResultMap" type="cn.wandingkeji.coupon.entity.WdGiftCoupon">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="card_id" property="card_id" jdbcType="VARCHAR" />
+		<result column="relation_coupon_id" property="relation_coupon_id" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="VARCHAR" />
+		<result column="coupon_name" property="coupon_name" jdbcType="VARCHAR" />
+		<result column="creat_time" property="creat_time" jdbcType="TIMESTAMP" />
+		<result column="update_time" property="update_time" jdbcType="TIMESTAMP" />
+		<result column="reserve" property="reserve" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		id,card_id,relation_coupon_id,status,coupon_name,creat_time,update_time,reserve
+	</sql>
+	<sql id="Insert_Column_List">	
+		card_id,relation_coupon_id,status,coupon_name,creat_time,update_time,reserve
+	</sql>
+	<!-- 根据id查询礼包券信息 -->
+	<select id="selectById" resultMap="BaseResultMap" >
+	select  <include refid="Base_Column_List" />
+	 from  wd_gift_coupon  where  id=#{id, jdbcType=INTEGER}
+	
+	</select>
+	<!-- 添加礼包券信息 -->
+	<insert id="insert" parameterType="cn.wandingkeji.coupon.entity.WdGiftCoupon" useGeneratedKeys="true" keyProperty="coupon.id">
+		insert into wd_gift_coupon (
+			<include refid="Insert_Column_List" />
+		)
+		values (
+		#{coupon.card_id},#{coupon.relation_coupon_id},#{coupon.status},#{coupon.coupon_name},
+		#{coupon.creat_time},#{coupon.update_time},#{coupon.reserve}
+		)
+		
+	</insert>
+	<!-- 根据主键id更新礼包券信息 -->
+	<update id="updateById" parameterType="cn.wandingkeji.coupon.entity.WdGiftCoupon">
+		update wd_gift_coupon
+		 <trim prefix="set" suffixOverrides=",">
+		 	<if test="coupon.card_id != null">card_id=#{coupon.card_id,jdbcType=VARCHAR},</if>
+		 	<if test="coupon.relation_coupon_id != null">relation_coupon_id=#{coupon.relation_coupon_id,jdbcType=VARCHAR},</if>
+		 	<if test="coupon.status != null">status=#{coupon.status,jdbcType=VARCHAR},</if>
+		 	<if test="coupon.coupon_name != null">coupon_name=#{coupon.coupon_name,jdbcType=VARCHAR},</if>
+		 	<if test="coupon.reserve != null">reserve=#{coupon.reserve,jdbcType=VARCHAR},</if>
+		 </trim>
+		 where id = #{coupon.id,jdbcType=INTEGER}	
+	</update>
+	<!-- 根据主键id删除礼包券信息 -->
+	<delete id="deleteById">
+		delete from wd_gift_coupon  where id = #{id,jdbcType=INTEGER}	
+	</delete>
+	
+	<resultMap id="PlatformCouponResultMap" type="cn.wandingkeji.coupon.entity.WdGiftCoupon">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="card_id" property="card_id" jdbcType="VARCHAR" />
+		<result column="relation_coupon_id" property="relation_coupon_id" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="VARCHAR" />
+		<result column="coupon_name" property="coupon_name" jdbcType="VARCHAR" />
+		<result column="creat_time" property="creat_time" jdbcType="TIMESTAMP" />
+		<result column="update_time" property="update_time" jdbcType="TIMESTAMP" />
+		<result column="reserve" property="reserve" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<!-- TODO -->
+	<!--
+	<select id="selectGiftCouponByCardid" resultMap="PlatformCouponResultMap">
+	  SELECT p.* from wd_gift_coupon g
+	  	LEFT JOIN wd_platform_coupon p on g.relation_coupon_id=p.card_id
+	  	where g.card_id=#{card_id,jdbcType=VARCHAR}
+	
+	</select>-->
+	
+</mapper>

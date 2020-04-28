@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.wandingkeji.card.mapper.WdReceiveCardRuleMapper">
+  <resultMap id="BaseResultMap" type="cn.wandingkeji.card.entity.WdReceiveCardRule">
+  <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="rule_name" jdbcType="VARCHAR" property="rule_name" />
+    <result column="wx_card_id" jdbcType="VARCHAR" property="wx_card_id" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="wd_coupon_card_id" jdbcType="VARCHAR" property="wd_coupon_card_id" />
+    <result column="reserve1" jdbcType="VARCHAR" property="reserve1" />
+    <result column="reserve2" jdbcType="VARCHAR" property="reserve2" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="create_time" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+		id,rule_name,wx_card_id,type,wd_coupon_card_id,reserve1,reserve2,create_time
+  </sql>
+    <sql id="Insert_Column_List">
+		rule_name,wx_card_id,type,wd_coupon_card_id,reserve1,reserve2
+  </sql>
+  <!-- 根据id查询领取会员卡信息 -->
+	<select id="selectById" resultMap="BaseResultMap" >
+		select  <include refid="Base_Column_List" />
+	 		from  wd_receive_card_rule  where  id=#{id, jdbcType=INTEGER}
+	</select>
+  <!-- 根据主键id更新领取会员卡信息 -->
+	<update id="updateById" parameterType="cn.wandingkeji.card.entity.WdReceiveCardRule">
+		update wd_receive_card_rule
+		 <trim prefix="set" suffixOverrides=",">
+		 	<if test="wdReceiveCardRule.wd_coupon_card_id != null">wd_coupon_card_id=#{wdReceiveCardRule.wd_coupon_card_id,jdbcType=VARCHAR},</if>
+		 </trim>
+		 where id = #{wdReceiveCardRule.id,jdbcType=INTEGER}	
+	</update>
+  <!-- 添加领取会员卡信息 -->
+  <insert id="insert" parameterType="cn.wandingkeji.card.entity.WdReceiveCardRule">
+    insert into wd_receive_card_rule <include refid="Insert_Column_List" />
+    values (
+    	#{wdReceiveCardRule.rule_name},#{wdReceiveCardRule.wx_card_id},#{wdReceiveCardRule.type},
+    	#{wdReceiveCardRule.wd_coupon_card_id},#{wdReceiveCardRule.reserve1},#{wdReceiveCardRule.reserve2}}
+      
+      )
+  </insert>
+	<select id="selectByWxCardId" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from wd_receive_card_rule
+		where wx_card_id=#{wx_card_id}
+	</select>
+
+
+</mapper>

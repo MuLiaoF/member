@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.wandingkeji.coupon.mapper.WdFrequencyTransMapper">
+	<resultMap id="BaseResultMap" type="cn.wandingkeji.coupon.entity.WdFrequencyTrans">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="use_time" property="use_time" jdbcType="TIMESTAMP" />
+		<result column="tran_type" property="tran_type" jdbcType="VARCHAR" />
+		<result column="card_id" property="card_id" jdbcType="VARCHAR" />
+		<result column="code" property="code" jdbcType="VARCHAR" />
+		<result column="openid" property="openid" jdbcType="VARCHAR" />
+		<result column="openid_type" property="openid_type" jdbcType="VARCHAR" />
+		<result column="use_total" property="use_total" jdbcType="INTEGER" />
+		<result column="surplus_total" property="surplus_total" jdbcType="INTEGER" />
+		<result column="status" property="status" jdbcType="VARCHAR" />
+		
+		<result column="creat_time" property="creat_time" jdbcType="TIMESTAMP" />
+		<result column="update_time" property="update_time" jdbcType="TIMESTAMP" />
+		<result column="reserve" property="reserve" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		id,use_time,tran_type,card_id,code,openid,openid_type,use_total,surplus_total,status,creat_time,update_time,reserve
+	</sql>
+	<sql id="Insert_Column_List">	
+		use_time,tran_type,card_id,code,openid,openid_type,use_total,surplus_total,status,creat_time,update_time,reserve
+	</sql>
+	<!-- 根据id查询次卡使用明细信息 -->
+	<select id="selectById" resultMap="BaseResultMap" >
+		select  <include refid="Base_Column_List" />
+	 		from  wd_frequency_trans  where  id=#{id, jdbcType=INTEGER}
+	</select>
+	<!-- reserve为mdCode 是核销计次卡的二维码序列号(唯一) -->
+	<select id="selectByReserve" resultMap="BaseResultMap" >
+		select  <include refid="Base_Column_List" />
+	 		from  wd_frequency_trans  where  reserve=#{reserve, jdbcType=VARCHAR}
+	</select>
+	<select id="selectByCardId" resultMap="BaseResultMap" >
+		select  <include refid="Base_Column_List" />
+	 		from  wd_frequency_trans  where  card_id=#{card_id, jdbcType=VARCHAR}
+	</select>
+	
+	
+	<!-- 查询次卡总数 -->
+	<select id="selectFrequencyTransCount" resultType="int">
+  		select count(*) from wd_frequency_trans
+  		where openid=#{condition.openid, jdbcType=VARCHAR} 
+  			<if test="condition.cardId != null">and	card_id=#{condition.cardId, jdbcType=VARCHAR}</if>
+	 		<if test="condition.code != null">and code= #{condition.code, jdbcType=VARCHAR}</if>
+	 		<if test="condition.tran_type != null">and tran_type= #{condition.tran_type, jdbcType=VARCHAR}</if>
+	 		<if test="condition.openid_type != null">and openid_type= #{condition.openid_type, jdbcType=VARCHAR}</if>
+	</select>
+	<!-- 分页查询 -->
+	<select id="getFrequencyTransByPager" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from wd_frequency_trans  where tran_type  <![CDATA[!= ]]> "ADD" and  openid=#{condition.openid, jdbcType=VARCHAR} 
+        	<if test="condition.cardId != null">and	card_id=#{condition.cardId, jdbcType=VARCHAR}</if>
+	 		<if test="condition.code != null">and code= #{condition.code, jdbcType=VARCHAR}</if>
+	 		<if test="condition.tran_type != null">and tran_type= #{condition.tran_type, jdbcType=VARCHAR}</if>
+	 		<if test="condition.openid_type != null">and openid_type= #{condition.openid_type, jdbcType=VARCHAR}</if>
+         order by creat_time desc
+		limit #{offset, jdbcType=INTEGER} , #{pageSize, jdbcType=INTEGER}
+	</select>
+	
+	<!-- 添加次卡使用明细信息 -->
+	<insert id="insert" parameterType="cn.wandingkeji.coupon.entity.WdFrequencyTrans" useGeneratedKeys="true" keyProperty="coupon.id">
+		insert into wd_frequency_trans (
+			<include refid="Insert_Column_List" />
+		)
+		values (
+		#{coupon.use_time},#{coupon.tran_type},
+		#{coupon.card_id},#{coupon.code},
+		#{coupon.openid},
+		#{coupon.openid_type},
+		#{coupon.use_total},
+		#{coupon.surplus_total},
+		#{coupon.status},#{coupon.creat_time},
+		#{coupon.update_time},#{coupon.reserve}
+		)
+	</insert>
+	<!-- 根据主键id更新次卡使用明细信息 -->
+	<update id="updateById" parameterType="cn.wandingkeji.coupon.entity.WdFrequencyTrans">
+		update wd_frequency_trans
+		 <trim prefix="set" suffixOverrides=",">
+		 	<if test="coupon.tran_type != null">tran_type=#{coupon.tran_type,jdbcType=VARCHAR},</if>
+		 	<if test="coupon.card_id != null">card_id=#{coupon.card_id,jdbcType=VARCHAR},</if>
+		 	<if test="coupon.code != null">code=#{coupon.code,jdbcType=VARCHAR},</if>
+		 	<if test="coupon.openid != null">openid=#{coupon.openid,jdbcType=VARCHAR},</if>
+		 	<if test="coupon.openid_type != null">openid_type=#{coupon.openid_type,jdbcType=VARCHAR},</if>
+		 	<if test="coupon.use_total != null">use_total=#{coupon.use_total,jdbcType=VARCHAR},</if>
+		 	<if test="coupon.surplus_total != null">surplus_total=#{coupon.surplus_total,jdbcType=VARCHAR},</if>
+		 	<if test="coupon.status != null">status=#{coupon.status,jdbcType=VARCHAR},</if>
+		 	<if test="coupon.reserve != null">reserve=#{coupon.reserve,jdbcType=VARCHAR},</if>
+		 </trim>
+		 where id = #{coupon.id,jdbcType=INTEGER}	
+	</update>
+	<!-- 根据主键id删除次卡使用明细信息 -->
+	<delete id="deleteById">
+		delete from wd_frequency_trans  where id = #{id,jdbcType=INTEGER}	
+	</delete>
+
+
+
+
+</mapper>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.wandingkeji.token.mapper.AccessTokenMapper">
+	<resultMap id="BaseResultMap" type="cn.wandingkeji.token.entity.AccessToken">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="appname" property="appname" jdbcType="VARCHAR" />
+		<result column="thirdmid" property="thirdmid" jdbcType="VARCHAR" />
+		<result column="appid" property="appId" jdbcType="VARCHAR" />
+		<result column="app_secret" property="appSecret" jdbcType="VARCHAR" />
+		<result column="app_token" property="appToken" jdbcType="VARCHAR" />
+		<result column="encodingAESKey" property="encodingAESKey" jdbcType="VARCHAR" />
+		<result column="channel_mid" property="channel_mid" jdbcType="VARCHAR" />
+		<result column="type" property="type" jdbcType="INTEGER" />
+		<result column="access_token" property="access_token" jdbcType="VARCHAR" />
+		<result column="expires_in" property="expires_in" jdbcType="INTEGER" />
+		<result column="token_id" property="token_id" jdbcType="INTEGER" />
+		<result column="token_type" property="token_type" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<!-- 根据id查询商户信息 -->
+	<select id="selectByAppidAndType" resultMap="BaseResultMap" >
+		select  *
+	 		from  access_token  where  type=#{type, jdbcType=INTEGER} and appid=#{appid, jdbcType=VARCHAR}
+	</select>
+
+	<!-- 第三方商户的appid -->
+	<select id="getTokenByType" resultMap="BaseResultMap" >
+		select  *
+	 		from  access_token  where  type=#{type, jdbcType=INTEGER}
+	</select>
+	
+	
+</mapper>

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.wandingkeji.merchant.MerchantsMapper">
+	<resultMap id="BaseResultMap" type="cn.wandingkeji.merchant.entity.Merchants">
+		<id column="mid" property="mid" jdbcType="INTEGER" />
+		<result column="mname" property="mname" jdbcType="VARCHAR" />
+		<result column="malias" property="malias" jdbcType="VARCHAR" />
+		<result column="mpwd" property="mpwd" jdbcType="VARCHAR" />
+		<result column="maccount" property="maccount" jdbcType="VARCHAR" />
+		<result column="salt" property="salt" jdbcType="VARCHAR" />
+		<result column="memail" property="memail" jdbcType="VARCHAR" />
+		<result column="mphone" property="mphone" jdbcType="VARCHAR" />
+		<result column="logo" property="logo" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="mtype" property="mtype" jdbcType="VARCHAR" />
+		<result column="thirdMid" property="thirdMid" jdbcType="VARCHAR" />
+		<result column="agentId" property="agentId" jdbcType="INTEGER" />
+		<result column="parentId" property="parentId" jdbcType="VARCHAR" />
+		<result column="isSub" property="isSub" jdbcType="INTEGER" />
+
+		<result column="sysAppId" property="sysAppId" jdbcType="VARCHAR" />
+		<result column="templetAppId" property="templetAppId" jdbcType="VARCHAR" />
+		<result column="reserve1" property="reserve1" jdbcType="VARCHAR" />
+		<result column="reserve2" property="reserve2" jdbcType="VARCHAR" />
+		<result column="reserve3" property="reserve3" jdbcType="VARCHAR" />
+		<result column="reserve4" property="reserve4" jdbcType="VARCHAR" />
+		<result column="mpid" property="mpid" jdbcType="VARCHAR" />
+		<result column="create_time" property="create_time" jdbcType="TIMESTAMP" />
+		<result column="update_time" property="update_time" jdbcType="TIMESTAMP" />
+		<result column="fid" property="fid" jdbcType="INTEGER" />
+		<result column="pay_type" property="pay_type" jdbcType="VARCHAR" />
+		<result column="rate" property="rate" jdbcType="DECIMAL" />
+		<result column="open_mem" property="open_mem" jdbcType="INTEGER" />
+		<result column="card_id" property="card_id" jdbcType="VARCHAR" />
+		<result column="thirdMkey" property="thirdMkey" jdbcType="VARCHAR" />
+		<result column="onechannel" property="onechannel" jdbcType="VARCHAR" />
+		<result column="url_wm0" property="url_wm0" jdbcType="VARCHAR" />
+		<result column="regIp" property="business_type" jdbcType="VARCHAR" />
+		
+	</resultMap>
+	<sql id="Base_Column_List">
+		mid, mname, malias,maccount, mpwd,
+		salt,memail,mphone,status,logo,thirdMid,agentId,mtype,parentId,sysAppId,templetAppId,reserve1,reserve2,reserve3,reserve4,create_time,update_time,fid,pay_type,rate,mpid,open_mem,card_id,thirdMkey,onechannel
+		,url_wm0,regIp
+	</sql>
+	<sql id="Insert_Column_List">
+		mname,malias, maccount, mpwd,
+		salt,memail,mphone,status,logo,thirdMid,agentId,mtype,parentId,sysAppId,templetAppId,reserve1,reserve2,reserve3,reserve4,create_time,fid,pay_type,isSub,rate,mpid,open_mem,card_id,thirdMkey,onechannel,url_wm0
+		,regIp
+	</sql>
+	<!-- 根据id查询商户信息 -->
+	<select id="selectById" resultMap="BaseResultMap" >
+		select  <include refid="Base_Column_List" />
+	 		from  merchants  where  mid=#{mid, jdbcType=INTEGER}
+	</select>
+	<!-- 添加商户信息 -->
+	<insert id="insert" parameterType="cn.wandingkeji.merchant.entity.Merchants" useGeneratedKeys="true"  keyProperty="coupon.id">
+		insert into merchants (
+		<include refid="Insert_Column_List" />
+		)
+		values ( #{merchants.mname},
+		#{merchants.malias},#{merchants.maccount},#{merchants.mpwd},
+		#{merchants.salt},#{merchants.memail},#{merchants.mphone}
+		,#{merchants.status},#{merchants.logo},#{merchants.thirdMid},#{merchants.agentId},#{merchants.mtype},#{merchants.parentId},#{merchants.sysAppId},
+		#{merchants.templetAppId},#{merchants.reserve1},#{merchants.reserve2},#{merchants.reserve3},#{merchants.reserve4},#{merchants.create_time},#{merchants.fid},
+		#{merchants.pay_type},#{merchants.isSub},#{merchants.rate},#{merchants.mpid},#{merchants.open_mem},#{merchants.card_id},#{merchants.thirdMkey},#{merchants.onechannel},#{merchants.url_wm0}
+		,#{merchants.business_type}
+		)
+	</insert>
+	<!-- 根据主键id更新商户信息 -->
+	<update id="updateById" parameterType="cn.wandingkeji.merchant.entity.Merchants">
+		update merchants
+		 <trim prefix="set" suffixOverrides=",">
+		 	<if test="merchants.status!=0">status = #{merchants.status,jdbcType=INTEGER},</if>
+			<if test="merchants.thirdMid != null">thirdMid = #{merchants.thirdMid,jdbcType=VARCHAR},</if>
+			<if test="merchants.mpwd!=null">mpwd = #{merchants.mpwd,jdbcType=VARCHAR},</if>
+			<if test="merchants.salt!=null">salt = #{merchants.salt,jdbcType=VARCHAR},</if>
+			<if test="merchants.agentId != 0">agentId = #{merchants.agentId,jdbcType=INTEGER},</if>
+			<if test="merchants.mname!=null">mname = #{merchants.mname},</if>
+			<if test="merchants.malias!=null">malias = #{merchants.malias},</if>
+			<if test="merchants.maccount!=null">maccount = #{merchants.maccount},</if>
+			<if test="merchants.sysAppId!=null">sysAppId = #{merchants.sysAppId},</if>
+			<if test="merchants.parentId!=null">parentId = #{merchants.parentId},</if>
+			<if test="merchants.memail!=null">memail = #{merchants.memail},</if>
+			<if test="merchants.mphone!=null">mphone = #{merchants.mphone},</if>
+			<if test="merchants.templetAppId!=null">templetAppId = #{merchants.templetAppId},</if>
+			<if test="merchants.rate!=null">rate = #{merchants.rate},</if>
+			<if test="merchants.reserve1!=null">reserve1 = #{merchants.reserve1},</if>
+			<if test="merchants.reserve3!=null">reserve3 = #{merchants.reserve3},</if>
+			<if test="merchants.fid!=null">fid = #{merchants.fid},</if>
+			<if test="merchants.pay_type!=null">pay_type = #{merchants.pay_type},</if>
+			<if test="merchants.thirdMkey!=null">thirdMkey = #{merchants.thirdMkey},</if>
+			<if test="merchants.onechannel!=null">onechannel = #{merchants.onechannel},</if>
+			<if test="merchants.mpid!=null">mpid = #{merchants.mpid},</if>
+			<if test="merchants.isSub!=null">isSub = #{merchants.isSub},</if>
+			<if test="merchants.business_type!=null">regIp = #{merchants.business_type},</if>
+		 </trim>
+		 where mid = #{coupon.id,jdbcType=INTEGER}	
+	</update>
+	<!-- 根据主键id删除商户信息 -->
+	<delete id="deleteById">
+		delete from merchants  where mid = #{mid,jdbcType=INTEGER}	
+	</delete>
+
+	<select id="selectByThridMid" resultMap="BaseResultMap" >
+		select  <include refid="Base_Column_List" />
+		from  merchants  where  thirdMid=#{mid, jdbcType=INTEGER}
+	</select>
+</mapper>

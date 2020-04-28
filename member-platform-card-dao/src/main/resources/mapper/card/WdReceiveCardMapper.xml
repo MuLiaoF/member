@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.wandingkeji.card.mapper.WdReceiveCardMapper">
+  <resultMap id="BaseResultMap" type="cn.wandingkeji.card.entity.WdReceiveCard">
+  <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="card_id" jdbcType="VARCHAR" property="card_id" />
+    <result column="user_openid" jdbcType="VARCHAR" property="user_openid" />
+    <result column="friend_openid" jdbcType="VARCHAR" property="friend_openid" />
+    <result column="user_card_code" jdbcType="VARCHAR" property="user_card_code" />
+    <result column="old_user_card_code" jdbcType="VARCHAR" property="old_user_card_code" />
+    <result column="outer_str" jdbcType="VARCHAR" property="outer_str" />
+    <result column="is_restore_memcard" jdbcType="BIT" property="is_restore_memcard" />
+    <result column="unionid" jdbcType="VARCHAR" property="unionid" />
+    <result column="emp_id" jdbcType="VARCHAR" property="empId" />
+    <result column="scene" jdbcType="VARCHAR" property="scene" />
+    <result column="scenevalue" jdbcType="VARCHAR" property="scenevalue" />
+    <result column="reserve1" jdbcType="VARCHAR" property="reserve1"/>
+    <result column="reserve2" jdbcType="VARCHAR" property="reserve2"/>
+    <result column="reserve3" jdbcType="VARCHAR" property="reserve3" />
+    <result column="receiveTime" jdbcType="VARCHAR" property="receivetime" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+		id,card_id,user_openid,friend_openid,user_card_code,
+		old_user_card_code,outer_str,is_restore_memcard,unionid,
+		emp_id,scene,scenevalue,reserve1,reserve2,reserve3,
+		receiveTime,createTime
+  </sql>
+  <!-- 根据id查询领取会员卡信息 -->
+	<select id="selectById" resultMap="BaseResultMap" >
+		select  <include refid="Base_Column_List" />
+	 		from  wd_receive_card  where  id=#{id, jdbcType=INTEGER}
+	</select>
+  <!-- 根据unionid查询领取会员卡信息 -->
+	<select id="selectByUnionId" resultMap="BaseResultMap" >
+		select  <include refid="Base_Column_List" />
+	 		from  wd_receive_card  where  unionid=#{unionid, jdbcType=VARCHAR} and card_id = #{card_id, jdbcType=VARCHAR}
+	</select>
+	
+  <!-- 根据主键id更新领取会员卡信息 -->
+	<update id="updateById" parameterType="cn.wandingkeji.card.entity.WdReceiveCard">
+		update wd_receive_card
+		 <trim prefix="set" suffixOverrides=",">
+		 	<if test="card.card_id != null">card_id=#{card.card_id,jdbcType=VARCHAR},</if>
+		 	<if test="card.user_openid != null">user_openid=#{card.user_openid,jdbcType=VARCHAR},</if>
+		 	<if test="card.friend_openid != null">friend_openid=#{card.friend_openid,jdbcType=VARCHAR},</if>
+		 	<if test="card.user_card_code != null">user_card_code=#{card.user_card_code,jdbcType=VARCHAR},</if>
+		 	<if test="card.old_user_card_code != null">old_user_card_code=#{card.old_user_card_code,jdbcType=VARCHAR},</if>
+		 	<if test="card.outer_str != null">outer_str=#{card.outer_str,jdbcType=VARCHAR},</if>
+		 	<if test="card.is_restore_memcard != null">is_restore_memcard=#{card.is_restore_memcard,jdbcType=VARCHAR},</if>
+		 	<if test="card.unionid != null">unionid=#{card.unionid,jdbcType=VARCHAR},</if>
+		 	<if test="card.receivetime != null">receiveTime=#{card.receivetime,jdbcType=VARCHAR},</if>
+		 	<if test="card.empId != null">emp_id=#{card.empId,jdbcType=VARCHAR},</if>
+		 	<if test="card.scene != null">scene=#{card.scene,jdbcType=VARCHAR},</if>
+		 	<if test="card.scenevalue != null">scenevalue=#{card.scenevalue,jdbcType=VARCHAR},</if>
+		 	<if test="card.reserve1 != null">reserve1=#{card.reserve1,jdbcType=VARCHAR},</if>
+		 	<if test="card.reserve2 != null">reserve2=#{card.reserve2,jdbcType=VARCHAR},</if>
+		 	<if test="card.reserve3 != null">reserve3=#{card.reserve3,jdbcType=VARCHAR},</if>
+		 </trim>
+		 where id = #{card.id,jdbcType=INTEGER}	
+	</update>
+	<!-- 根据主键id删除领取会员卡信息 -->
+	<delete id="deleteById">
+		delete from wd_receive_card  where id = #{id,jdbcType=INTEGER}	
+	</delete>
+  <!-- 添加领取会员卡信息 -->
+  <insert id="insert" parameterType="cn.wandingkeji.card.entity.WdReceiveCard">
+    insert into wd_receive_card (card_id, user_openid, friend_openid, 
+      user_card_code, old_user_card_code, outer_str, 
+      is_restore_memcard, unionid,
+      emp_id,scene,scenevalue,reserve1,reserve2,reserve3,
+      receiveTime, createTime)
+    values (
+    	#{card.card_id,jdbcType=VARCHAR}, #{card.user_openid,jdbcType=VARCHAR}, #{card.friend_openid,jdbcType=VARCHAR}, 
+      #{card.user_card_code,jdbcType=VARCHAR}, #{card.old_user_card_code,jdbcType=VARCHAR}, #{card.outer_str,jdbcType=VARCHAR}, 
+      #{card.is_restore_memcard,jdbcType=BIT}, #{card.unionid,jdbcType=VARCHAR},
+      #{card.empId,jdbcType=VARCHAR}, #{card.scene,jdbcType=VARCHAR},#{card.scenevalue,jdbcType=VARCHAR},
+      #{card.reserve1,jdbcType=VARCHAR},#{card.reserve2,jdbcType=VARCHAR},#{card.reserve3,jdbcType=VARCHAR},
+      #{card.receivetime,jdbcType=VARCHAR},  #{card.createtime,jdbcType=TIMESTAMP}
+      
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.wandingkeji.card.entity.WdReceiveCard">
+    insert into wd_receive_card
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="cardId != null">
+        card_id,
+      </if>
+      <if test="userOpenid != null">
+        user_openid,
+      </if>
+      <if test="friendOpenid != null">
+        friend_openid,
+      </if>
+      <if test="userCardCode != null">
+        user_card_code,
+      </if>
+      <if test="oldUserCardCode != null">
+        old_user_card_code,
+      </if>
+      <if test="outerStr != null">
+        outer_str,
+      </if>
+      <if test="isRestoreMemcard != null">
+        is_restore_memcard,
+      </if>
+      <if test="unionid != null">
+        unionid,
+      </if>
+      <if test="receivetime != null">
+        receiveTime,
+      </if>
+      <if test="createtime != null">
+        createTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="cardId != null">
+        #{cardId,jdbcType=VARCHAR},
+      </if>
+      <if test="userOpenid != null">
+        #{userOpenid,jdbcType=VARCHAR},
+      </if>
+      <if test="friendOpenid != null">
+        #{friendOpenid,jdbcType=VARCHAR},
+      </if>
+      <if test="userCardCode != null">
+        #{userCardCode,jdbcType=VARCHAR},
+      </if>
+      <if test="oldUserCardCode != null">
+        #{oldUserCardCode,jdbcType=VARCHAR},
+      </if>
+      <if test="outerStr != null">
+        #{outerStr,jdbcType=VARCHAR},
+      </if>
+      <if test="isRestoreMemcard != null">
+        #{isRestoreMemcard,jdbcType=BIT},
+      </if>
+      <if test="unionid != null">
+        #{unionid,jdbcType=VARCHAR},
+      </if>
+      <if test="receivetime != null">
+        #{receivetime,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  
+  <select id="selectByCondition" resultMap="BaseResultMap" >
+		select  <include refid="Base_Column_List" />
+	 		from  wd_receive_card  where 
+	 		 card_id = #{condition.cardId, jdbcType=VARCHAR}
+	 		<if test="condition.unionId != null">and unionid=#{condition.unionId, jdbcType=VARCHAR}</if>
+	 		<if test="condition.openid != null">and user_openid=#{condition.openid, jdbcType=VARCHAR}</if>
+	 		<if test="condition.user_card_code != null">and user_card_code=#{condition.user_card_code, jdbcType=VARCHAR}</if>
+	</select>
+
+    <update id="updateReplaceCard"  parameterType="java.lang.String">
+		UPDATE wd_replace_card SET `status` = '-1' WHERE wx_card_id = #{cardId} and  user_openid = #{openId}
+	</update>
+
+</mapper>

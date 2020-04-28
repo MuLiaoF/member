@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.wandingkeji.token.mapper.MerTokenMapper">
+	<resultMap id="BaseResultMap" type="cn.wandingkeji.token.entity.MerToken" >
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="mid" property="mid" jdbcType="INTEGER" />
+		<result column="token_id" property="token_id" jdbcType="INTEGER" />
+		<result column="token_type" property="token_type" jdbcType="VARCHAR" />
+		<result column="create_time" property="create_time" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<select id="selectTokenId" resultType="int">
+		SELECT IFNULL(MAX(token_id),0) AS token_id
+		FROM mer_token
+		WHERE mid = #{condition.mid ,jdbcType=INTEGER} 
+		AND token_type= #{condition.token_type,jdbcType=VARCHAR}
+	</select>
+	
+	<sql id="Base_Column_List">
+		id, mid, token_id,token_type, create_time
+	</sql>
+	<sql id="Insert_Column_List">
+		mid, token_id,token_type
+	</sql>
+	<!-- 根据id查询商户信息 -->
+	<select id="selectByMidAndType" resultMap="BaseResultMap" >
+		select  <include refid="Base_Column_List" />
+	 		from  mer_token  where  mid=#{mid, jdbcType=INTEGER} and token_type=#{token_type, jdbcType=VARCHAR}
+	</select>
+	<!-- 添加商户信息 -->
+	<insert id="insert" parameterType="cn.wandingkeji.token.entity.MerToken">
+		insert into mer_token (
+		<include refid="Insert_Column_List" />
+		)
+		values ( #{merToken.mid},#{merToken.token_id},#{merToken.token_type})
+	</insert>
+	<!-- 查询mid -->
+	<select id="selectByTokenidAndType" resultMap="BaseResultMap" >
+		select  <include refid="Base_Column_List" />
+	 		from  mer_token  where  token_id=#{token_id, jdbcType=INTEGER} and token_type=#{token_type, jdbcType=VARCHAR}
+	</select>
+	
+	
+	
+	
+</mapper>

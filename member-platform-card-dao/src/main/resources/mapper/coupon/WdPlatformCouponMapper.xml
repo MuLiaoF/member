@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.wandingkeji.coupon.mapper.WdPlatformCouponMapper">
+	<resultMap id="BaseResultMap" type="cn.wandingkeji.coupon.entity.WdPlatformCoupon">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="agent_id" property="agent_id" jdbcType="INTEGER" />
+		<result column="mid" property="mid" jdbcType="INTEGER" />
+		<result column="sid" property="sid" jdbcType="INTEGER" />
+		<result column="appid" property="appid" jdbcType="VARCHAR" />
+		<result column="card_id" property="card_id" jdbcType="VARCHAR" />
+		<result column="card_type" property="card_type" jdbcType="VARCHAR" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="channel_type" property="channel_type" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="can_share" property="can_share" jdbcType="INTEGER" />
+		<result column="quantity" property="quantity" jdbcType="VARCHAR" />
+		<result column="get_limit" property="get_limit" jdbcType="VARCHAR" />
+		<result column="creat_time" property="creat_time" jdbcType="TIMESTAMP" />
+		<result column="update_time" property="update_time" jdbcType="TIMESTAMP" />
+		<result column="color" property="color" jdbcType="VARCHAR" />
+		<result column="logo_url" property="logo_url" jdbcType="VARCHAR" />
+		<result column="rolu_info" property="rolu_info" jdbcType="VARCHAR" />
+		<result column="third_card_id" property="third_card_id" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id,agent_id,mid,sid,appid,card_id,card_type,title,channel_type,status,can_share,quantity,get_limit,creat_time,update_time,color,logo_url,rolu_info,third_card_id
+	</sql>
+	<sql id="Insert_Column_List">	
+		agent_id,mid,sid,appid,card_id,card_type,title,channel_type,status,can_share,quantity,get_limit,creat_time,update_time,color,logo_url,rolu_info,third_card_id
+	</sql>
+	<!-- 根据id查询平台券信息 -->
+	<select id="selectById" resultMap="BaseResultMap" >
+		select  <include refid="Base_Column_List" />
+		 from  wd_platform_coupon  where  id=#{id, jdbcType=INTEGER}
+	</select>
+	<!-- 根据条件查询查询平台券信息 -->
+	<select id="selectByCondition" resultMap="BaseResultMap" >
+	select  <include refid="Base_Column_List" />
+	 from  wd_platform_coupon  where  
+		<if test="condition.third_card_id != null" >
+  			  third_card_id = #{condition.third_card_id, jdbcType=VARCHAR} 
+  		</if>
+	</select>
+	<!-- 添加平台券信息 -->
+	<insert id="insert" parameterType="cn.wandingkeji.coupon.entity.WdPlatformCoupon" useGeneratedKeys="true"  keyProperty="coupon.id">
+		insert into wd_platform_coupon (
+			<include refid="Insert_Column_List" />
+		)
+		values (
+		#{coupon.agent_id},#{coupon.mid},#{coupon.sid},#{coupon.appid},#{coupon.card_id},
+		#{coupon.card_type},#{coupon.title},#{coupon.channel_type},#{coupon.status},#{coupon.can_share},#{coupon.quantity},
+		#{coupon.get_limit},#{coupon.creat_time},#{coupon.update_time},#{coupon.color},#{coupon.logo_url},#{coupon.rolu_info},
+		#{coupon.third_card_id}
+		)
+		
+	</insert>
+	<!-- 根据主键id更新平台券信息 -->
+	<update id="updateById" parameterType="cn.wandingkeji.coupon.entity.WdPlatformCoupon">
+		update wd_platform_coupon
+		 <trim prefix="set" suffixOverrides=",">
+		 	<if test="coupon.agent_id != null">agent_id=#{coupon.agent_id,jdbcType=VARCHAR},</if>
+		 	<if test="coupon.mid != 0">mid=#{coupon.mid,jdbcType=VARCHAR},</if>
+		 	<if test="coupon.sid != null">sid=#{coupon.sid,jdbcType=VARCHAR},</if>
+		 	<if test="coupon.appid != null">appid=#{coupon.appid,jdbcType=VARCHAR},</if>
+		 	<if test="coupon.card_id != null">card_id=#{coupon.card_id,jdbcType=VARCHAR},</if>
+		 	<if test="coupon.card_type != null">card_type=#{coupon.card_type,jdbcType=VARCHAR},</if>
+		 	<if test="coupon.title != null">title=#{coupon.title,jdbcType=VARCHAR},</if>
+		 	<if test="coupon.channel_type != null">channel_type=#{coupon.channel_type,jdbcType=VARCHAR},</if>
+		 	<if test="coupon.status != null">status=#{coupon.status,jdbcType=VARCHAR},</if>
+		 	<if test="coupon.can_share != null">can_share=#{coupon.can_share,jdbcType=VARCHAR},</if>
+		 	<if test="coupon.quantity != null">quantity=#{coupon.quantity,jdbcType=VARCHAR},</if>
+		 	<if test="coupon.get_limit != null">get_limit=#{coupon.get_limit,jdbcType=VARCHAR},</if>
+		 	<if test="coupon.color != null">color=#{coupon.color,jdbcType=VARCHAR},</if>
+		 	<if test="coupon.logo_url != null">logo_url=#{coupon.logo_url,jdbcType=VARCHAR},</if>
+		 	<if test="coupon.rolu_info != null">rolu_info=#{coupon.rolu_info,jdbcType=VARCHAR},</if>
+		 	<if test="coupon.third_card_id != null">third_card_id=#{coupon.third_card_id,jdbcType=VARCHAR},</if>
+		 </trim>
+		 where id = #{coupon.id,jdbcType=INTEGER}	
+	</update>
+	<update id="updateByQuantity" parameterType="cn.wandingkeji.coupon.entity.WdPlatformCoupon">
+		update wd_platform_coupon
+		 <trim prefix="set" suffixOverrides=",">
+		 	<if test="coupon.quantity != null">quantity=#{coupon.quantity,jdbcType=VARCHAR},</if>
+		 </trim>
+		 where id = #{coupon.id,jdbcType=INTEGER}	
+	</update>
+	<!-- 根据主键id删除平台券信息 -->
+	<delete id="deleteById">
+		delete from wd_platform_coupon  where id = #{id,jdbcType=INTEGER}	
+	</delete>
+	<select id="selectWxCouponByCardId" resultMap="BaseResultMap">
+	    SELECT * from wd_platform_coupon where card_id = #{card_id, jdbcType=VARCHAR};
+	</select>
+	
+	<select id="selectGiftCouponByCardid" resultMap="BaseResultMap">
+	  SELECT p.* from wd_gift_coupon g LEFT JOIN wd_platform_coupon p on g.relation_coupon_id=p.card_id where g.card_id=#{card_id,jdbcType=VARCHAR}
+	
+	</select>
+	</mapper>

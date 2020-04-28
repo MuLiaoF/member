@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.wandingkeji.card.mapper.WdCardGoodsMapper">
+	<resultMap type="cn.wandingkeji.card.entity.WdCardGoods" id="BaseResultMap">
+		<id column="id" property="id" jdbcType="INTEGER"/>
+		<result column="mid" property="mid" jdbcType="INTEGER" />
+		<result column="sid" property="sid" jdbcType="INTEGER" />
+		<result column="eid" property="eid" jdbcType="INTEGER" />
+		<result column="card_id" property="card_id" jdbcType="VARCHAR" />
+		<result column="product_name" property="product_name" jdbcType="VARCHAR" />
+		<result column="small_url" property="small_url" jdbcType="VARCHAR" />
+		<result column="pic_url" property="pic_url" jdbcType="VARCHAR" />	
+		<result column="n_price" property="n_price" jdbcType="DECIMAL" />
+		<result column="v_price" property="v_price" jdbcType="DECIMAL" />
+		<result column="o_price" property="o_price" jdbcType="DECIMAL" />
+		<result column="stock" property="stock" jdbcType="INTEGER" />
+		<result column="status" property="status" jdbcType="VARCHAR" />
+		<result column="sale_count" property="sale_count" jdbcType="INTEGER" />
+		<result column="base_count" property="base_count" jdbcType="INTEGER" />		
+		<result column="depict" property="depict" jdbcType="VARCHAR" />
+		<result column="rule" property="rule" jdbcType="VARCHAR" />
+		<result column="sort" property="sort" jdbcType="INTEGER" />
+		<result column="is_buy" property="isBuy" jdbcType="VARCHAR" />		
+		<result column="pay_rule_id" property="payRuleId" jdbcType="INTEGER" />		
+		<result column="buy_read" property="buy_read" jdbcType="VARCHAR" />
+		<result column="group_storeId" property="group_storeId" jdbcType="INTEGER" />
+		<result column="creat_time" property="creat_time" jdbcType="TIMESTAMP" />
+		<result column="update_time" property="update_time" jdbcType="TIMESTAMP" />	
+		<result column="card_level_id" property="card_level_id" jdbcType="INTEGER" />	
+		<result column="card_level_name" property="card_level_name" jdbcType="VARCHAR" />
+		<result column="outStr" property="outStr" jdbcType="VARCHAR" />
+		
+	</resultMap>
+	<sql id="Base_Column_List">
+     	id,mid,sid,eid,card_id,product_name,small_url,pic_url,n_price,(v_price * 100) as v_price,o_price,stock,status,sale_count,base_count,depict,
+     	rule,sort,is_buy,pay_rule_id,group_storeId,buy_read,card_level_id,card_level_name,outStr
+	</sql>
+	<sql id="Insert_Column_List">
+	 	mid,sid,eid,card_id,product_name,small_url,pic_url,n_price,v_price,o_price,stock,status,sale_count,base_count,depict,
+     	rule,sort,is_buy,pay_rule_id,group_storeId,buy_read,creat_time,card_level_id,card_level_name,outStr
+	</sql>
+	<sql id="Select_ToPhone_List">
+		id,mid,product_name,small_url,n_price,v_price,o_price,status,outStr
+	</sql>
+	<!-- 增加团购商品 -->
+	<insert id="insert" parameterType="cn.wandingkeji.card.entity.WdCardGoods">
+		insert into wd_card_goods(
+		<include refid="Insert_Column_List" />
+		)
+		values (#{wdCardGoods.mid},#{wdCardGoods.sid},#{wdCardGoods.eid},#{wdCardGoods.card_id},#{wdCardGoods.product_name},
+		#{wdCardGoods.small_url},#{wdCardGoods.pic_url},#{wdCardGoods.n_price},#{wdCardGoods.v_price},#{wdCardGoods.o_price},
+		#{wdCardGoods.stock},#{wdCardGoods.status},#{wdCardGoods.sale_count},#{wdCardGoods.base_count},#{wdCardGoods.depict},
+		#{wdCardGoods.rule},#{wdCardGoods.sort},#{wdCardGoods.isBuy},#{wdCardGoods.payRuleId},#{wdCardGoods.group_storeId}
+		,#{wdCardGoods.buy_read},#{wdCardGoods.creat_time},#{wdCardGoods.card_level_id},#{wdCardGoods.card_level_name},#{wdCardGoods.outStr}
+		)
+	</insert>
+	
+	<update id="updateByPrimaryKey" parameterType="cn.wandingkeji.card.entity.WdCardGoods">
+		update wd_card_goods
+		 <trim prefix="set" suffixOverrides=",">		 
+		 <if test="wdCardGoods.stock!=null">stock=#{wdCardGoods.stock,jdbcType=INTEGER},</if>
+		 <if test="wdCardGoods.sale_count!=null">sale_count=#{wdCardGoods.sale_count,jdbcType=INTEGER},</if>
+		 <if test="wdCardGoods.base_count!=null">base_count=#{wdCardGoods.base_count,jdbcType=INTEGER},</if>		 
+		 <if test="wdCardGoods.product_name!=null">name=#{wdCardGoods.product_name,jdbcType=VARCHAR},</if>
+		 <if test="wdCardGoods.small_url!=null">small_url=#{wdCardGoods.small_url,jdbcType=VARCHAR},</if>
+		 <if test="wdCardGoods.pic_url!=null">pic_url=#{wdCardGoods.pic_url,jdbcType=VARCHAR},</if>
+		 <if test="wdCardGoods.n_price!=null">nprice=#{wdCardGoods.n_price,jdbcType=DECIMAL},</if>
+		 <if test="wdCardGoods.v_price!=null">vprice=#{wdCardGoods.v_price,jdbcType=DECIMAL},</if>
+		 <if test="wdCardGoods.o_price!=null">oprice=#{wdCardGoods.o_price,jdbcType=DECIMAL},</if>
+		 <if test="wdCardGoods.depict!=null">depict=#{wdCardGoods.depict,jdbcType=VARCHAR},</if>
+		 <if test="wdCardGoods.rule!=null">rule=#{wdCardGoods.rule,jdbcType=VARCHAR},</if>
+		 <if test="wdCardGoods.sort!=null">sort=#{wdCardGoods.sort,jdbcType=INTEGER}</if>
+		  </trim>
+		where id = #{wdCardGoods.id,jdbcType=INTEGER}
+	</update>
+	
+	<update id="updateStatusById" parameterType="cn.wandingkeji.card.entity.WdCardGoods">
+		update wd_card_goods
+		 <trim prefix="set" suffixOverrides=",">
+		 <if test="wdCardGoods.status!=null">status=#{wdCardGoods.status,jdbcType=VARCHAR}</if>
+		  </trim>
+		where id = #{wdCardGoods.id,jdbcType=INTEGER}
+	</update>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from wd_card_goods
+		where id = #{wdCardGoods.id,jdbcType=INTEGER}
+	</select>
+	
+	<select id="selectWdCardGoodsCount" resultType="int">
+  		select count(*) from wd_card_goods
+  		where  mid=#{condition.mid, jdbcType=INTEGER} 
+  		<if test="condition.product_name != null" >
+  			 and product_name like #{condition.product_name, jdbcType=VARCHAR}
+  		</if>
+  		<if test="condition.status != null" >
+  			 and status = #{condition.status, jdbcType=VARCHAR}
+  		</if>
+  		<if test="condition.isBuy != null">
+  			and is_buy = #{condition.isBuy, jdbcType=VARCHAR}
+  		</if> 
+  		<if test="condition.group_storeId != null">
+  			and group_storeId = #{condition.group_storeId, jdbcType=INTEGER}
+  		</if>
+  			
+	</select>
+	
+	<select id="getWdCardGoodsByPager" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from wd_card_goods  where  mid=#{condition.mid, jdbcType=INTEGER} 
+		<if test="condition.product_name != null" >
+  			 and product_name like #{condition.product_name, jdbcType=VARCHAR}
+  		</if>
+  		<if test="condition.status != null" >
+  			 and status = #{condition.status, jdbcType=VARCHAR}
+  		</if>
+  		<if test="condition.group_storeId != null">
+  			and group_storeId = #{condition.group_storeId, jdbcType=INTEGER}
+  		</if>
+  		<if test="condition.isBuy != null">
+  			and is_buy = #{condition.isBuy, jdbcType=VARCHAR}
+  		</if>
+		<if test="condition.card_id != null">
+			and card_id = #{condition.card_id, jdbcType=VARCHAR}
+		</if>
+		<if test="condition.sid != null">
+			and sid = #{condition.sid, jdbcType=INTEGER}
+		</if>
+		<if test="condition.pid != null">
+			and id = #{condition.pid, jdbcType=INTEGER}
+		</if>
+         order by sort desc
+		limit #{offset, jdbcType=INTEGER} , #{pageSize, jdbcType=INTEGER}
+	</select>
+      <resultMap id="productMap" type="java.util.Map">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="mid" property="mid" jdbcType="INTEGER" />
+		<result column="product_name" property="product_name" jdbcType="VARCHAR" />
+		<result column="small_url" property="small_url" jdbcType="VARCHAR" />
+		<result column="n_price" property="n_price" jdbcType="DECIMAL" />
+		<result column="v_price" property="v_price" jdbcType="DECIMAL" />
+		<result column="o_price" property="o_price" jdbcType="DECIMAL" />
+		<result column="status" property="status" jdbcType="VARCHAR" />
+    </resultMap>     
+     <select id="getGoodsToPhone" resultMap="productMap">
+		select
+		 <include refid="Select_ToPhone_List" />
+	 	from wd_card_goods  where  mid=#{condition.mid, jdbcType=INTEGER} 
+	    <if test="condition.status != null" >
+  			 and status = #{condition.status, jdbcType=VARCHAR}
+  		</if>
+  		<if test="condition.sort == 1" >
+  			 order by n_price desc
+  		</if>
+        <if test="condition.sort == 2" >
+  			 order by n_price asc
+  		</if>
+		limit #{offset, jdbcType=INTEGER} , #{pageSize, jdbcType=INTEGER}
+	</select>
+	
+</mapper>

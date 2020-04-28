@@ -1,0 +1,478 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.wandingkeji.member.mapper.WdMemberMapper">
+	<resultMap id="BaseResultMap" type="cn.wandingkeji.member.entity.WdMember">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="mid" property="mid" jdbcType="INTEGER" />
+		<result column="card_id" property="card_id" jdbcType="VARCHAR" />
+		<result column="card_no" property="card_no" jdbcType="VARCHAR" />
+		<result column="card_barcode" property="card_barcode" jdbcType="VARCHAR" />
+		<result column="bonus" property="bonus" jdbcType="INTEGER" />
+		<result column="balance" property="balance" jdbcType="DECIMAL" />
+		<result column="all_paymoney" property="all_paymoney" jdbcType="DECIMAL" />
+		<result column="type" property="type" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="wx_pic" property="wx_pic" jdbcType="VARCHAR" />
+		<result column="phone" property="phone" jdbcType="VARCHAR" />
+		<result column="wx_name" property="wx_name" jdbcType="VARCHAR" />
+		<result column="email" property="email" jdbcType="VARCHAR" />
+		<result column="sex" property="sex" jdbcType="VARCHAR" />
+		<result column="address" property="address" jdbcType="VARCHAR" />
+		<result column="addtime" property="addtime" jdbcType="VARCHAR" />
+		<result column="expenses_total" property="expenses_total" jdbcType="INTEGER" />
+		<result column="education" property="education" jdbcType="INTEGER" />
+		<result column="industry" property="industry" jdbcType="INTEGER" />
+		<result column="year" property="year" jdbcType="INTEGER" />
+		<result column="month" property="month" jdbcType="INTEGER" />
+		<result column="day" property="day" jdbcType="INTEGER" />
+		<result column="salary" property="salary" jdbcType="INTEGER" />
+		<result column="likes" property="likes" jdbcType="VARCHAR" />
+		<result column="grade_id" property="grade_id" jdbcType="INTEGER" />
+		<result column="grade_name" property="grade_name" jdbcType="VARCHAR" />
+		<result column="msg_nub" property="msg_nub" jdbcType="INTEGER" />
+		<result column="openid" property="openid" jdbcType="VARCHAR" />
+		<result column="store_id" property="store_id" jdbcType="INTEGER" />
+		<result column="store_name" property="store_name" jdbcType="VARCHAR" />
+		<result column="province_code" property="province_code" jdbcType="INTEGER" />
+		<result column="city_code" property="city_code" jdbcType="INTEGER" />
+		<result column="update_paytime" property="update_paytime" jdbcType="VARCHAR" />
+		<result column="pay_nub" property="pay_nub" jdbcType="INTEGER" />
+		<result column="tags" property="tags" jdbcType="VARCHAR" />
+		<result column="pw" property="pw" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="VARCHAR" />
+		<result column="outerid" property="outerid" jdbcType="VARCHAR" />
+		<result column="idcard" property="idcard" jdbcType="VARCHAR" />
+		<result column="career" property="career" jdbcType="VARCHAR" />
+		<result column="has_active" property="has_active" jdbcType="INTEGER" />
+		<result column="level" property="level" jdbcType="VARCHAR" />
+		<result column="level_name" property="level_name" jdbcType="VARCHAR" />
+		<result column="creat_time" property="creat_time" jdbcType="TIMESTAMP" />
+		<result column="password" property="password" jdbcType="VARCHAR" />
+		<result column="salt" property="salt" jdbcType="VARCHAR" />
+		<result column="loc_status" property="loc_status" jdbcType="VARCHAR" />
+		<!-- add by wjl 2017-12-22 person表主键 -->
+		<result column="person_id" property="person_id" jdbcType="INTEGER" />
+
+       
+		<result column="eme_id" property="empId" jdbcType="VARCHAR" />
+		<result column="reserve1" property="reserve1" jdbcType="VARCHAR" />
+		<result column="reserve2" property="reserve2" jdbcType="VARCHAR" />
+		<result column="reserve3" property="reserve3" jdbcType="VARCHAR" />
+
+	</resultMap>
+	<sql id="Base_Column_List">
+       id,mid,card_id,card_no,card_barcode,bonus,balance,all_paymoney,type,name,wx_pic,phone,wx_name,email,sex,address,addtime,expenses_total,education,industry,year,month,day,salary,likes,grade_id,grade_name,
+       msg_nub,openid,store_id,store_name,province_code,city_code,update_paytime,pay_nub,tags,pw,status,outerid,idcard,career,has_active,level,level_name,creat_time,password,salt,loc_status
+       <!-- add by wjl 2017-12-22 person表主键 -->,person_id,mini_appid,mini_openid
+	</sql>
+	
+	<sql id="Insert_Column_List">
+	     mid,card_id,card_no,card_barcode,bonus,balance,all_paymoney,type,name,wx_pic,phone,wx_name,email,sex,address,addtime,expenses_total,education,industry,year,month,day,salary,likes,grade_id,grade_name,
+	     msg_nub,openid,store_id,store_name,province_code,city_code,update_paytime,pay_nub,tags,pw,status,outerid,idcard,career,has_active,level,level_name,creat_time,password,salt,loc_status
+	     <!-- add by wjl 2017-12-22 person表主键 -->,person_id,mini_appid,mini_openid
+	     <!-- add by jinghuan 2020-01-06 wd_employee_toker表员工编号 -->,emp_id
+
+	</sql>
+	<sql id="Query_Column_List">
+       id,mid,card_id,card_no,card_barcode,bonus,balance,type,name,phone,wx_name,password,salt,
+       openid,store_id,status,outerid,idcard,career,has_active,level,level_name,loc_status
+      
+	</sql>
+	<insert id="insert"  useGeneratedKeys="true"  keyProperty="wdMember.id">
+		insert into wd_member (
+		<include refid="Insert_Column_List" />
+		)
+		values (#{wdMember.mid},#{wdMember.card_id},#{wdMember.card_no},#{wdMember.card_barcode},
+		#{wdMember.bonus},#{wdMember.balance},#{wdMember.all_paymoney},#{wdMember.type},#{wdMember.name},
+		#{wdMember.wx_pic},#{wdMember.phone},#{wdMember.wx_name},#{wdMember.email},#{wdMember.sex},
+		#{wdMember.address},#{wdMember.addtime},#{wdMember.expenses_total},#{wdMember.education},
+		#{wdMember.industry},#{wdMember.year},#{wdMember.month},#{wdMember.day},#{wdMember.salary},#{wdMember.likes},#{wdMember.grade_id},#{wdMember.grade_name}
+		,#{wdMember.msg_nub},#{wdMember.openid},#{wdMember.store_id},#{wdMember.store_name},#{wdMember.province_code},#{wdMember.city_code},#{wdMember.update_paytime},#{wdMember.pay_nub},#{wdMember.tags}
+		,#{wdMember.pw},#{wdMember.status},#{wdMember.outerid},#{wdMember.idcard},#{wdMember.career},#{wdMember.has_active},#{wdMember.level},#{wdMember.level_name},#{wdMember.creat_time},#{wdMember.password},#{wdMember.salt}
+		,#{wdMember.loc_status}<!-- add by wjl 2017-12-22 person表主键 -->,#{wdMember.person_id},#{wdMember.mini_appid},#{wdMember.mini_openid},#{wdMember.empId} )
+	</insert>
+	<select id="selectMemberCount" resultType="int">
+  		select count(*) from wd_member 
+  		where  mid=#{condition.mid, jdbcType=INTEGER} 
+  		<if test="condition.status != null" >
+  			 and status = #{condition.status, jdbcType=INTEGER}
+  		</if>
+  		<if test="condition.card_no != null" >
+  			 and card_no = #{condition.card_no, jdbcType=VARCHAR}
+  		</if>
+  		<if test="condition.name != null" >
+  			 and name = #{condition.name, jdbcType=VARCHAR}
+  		</if>
+  		<if test="condition.phone != null" >
+  			 and phone = #{condition.phone, jdbcType=VARCHAR}
+  		</if>
+  		<if test="condition.loc_status != null" >
+  			 and loc_status = #{condition.loc_status, jdbcType=VARCHAR}
+  		</if>
+	</select>
+	<resultMap id="memViewMap" type="java.util.Map">
+	    <id column="id" property="id" jdbcType="INTEGER" />
+		<result column="mid" property="mid" jdbcType="INTEGER" />
+		<result column="card_id" property="card_id" jdbcType="VARCHAR" />
+		<result column="card_no" property="card_no" jdbcType="VARCHAR" />
+		<result column="card_barcode" property="card_barcode" jdbcType="VARCHAR" />
+		<result column="phone" property="phone" jdbcType="VARCHAR" />
+		<result column="wx_name" property="wx_name" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="outerid" property="outerid" jdbcType="VARCHAR" />
+		<result column="level" property="level" jdbcType="VARCHAR" />
+		<result column="level_name" property="level_name" jdbcType="VARCHAR" />
+		<result column="creat_time" property="creat_time" jdbcType="TIMESTAMP" />
+	    <result column="actual_balance" property="actual_balance" jdbcType="DECIMAL" />
+	    <result column="account_bouns" property="account_bouns" jdbcType="DECIMAL" />
+	    <!-- add by wjl 2017-12-22 person表主键 -->
+	    <result column="person_id" property="person_id" jdbcType="INTEGER" />
+	</resultMap>
+	<!--查询会员列表，按照时间做排序  -->
+	<select id="getMemberByPager" resultMap="memViewMap">
+		select m.*,ma.actual_balance,ma.account_bouns from ((select
+		 id,mid,card_id,card_no,card_barcode,phone,wx_name,outerid,level,level_name,creat_time,person_id,name
+		from wd_member  where  mid=#{condition.mid, jdbcType=INTEGER} 
+		<if test="condition.status != null" >
+  			 and status = #{condition.status, jdbcType=INTEGER}
+  		</if>
+  		<if test="condition.card_no != null" >
+  			 and card_no = #{condition.card_no, jdbcType=VARCHAR}
+  		</if>
+  		<if test="condition.name != null" >
+  			 and name = #{condition.name, jdbcType=VARCHAR}
+  		</if>
+  		<if test="condition.phone != null" >
+  			 and phone = #{condition.phone, jdbcType=VARCHAR}
+  		</if>
+  		<if test="condition.loc_status != null" >
+  			 and loc_status = #{condition.loc_status, jdbcType=VARCHAR}
+  		</if>
+  		 <if test="condition.sort == null" >
+  			 order by creat_time desc
+  			 limit #{offset, jdbcType=INTEGER} , #{pageSize, jdbcType=INTEGER}
+  		</if>
+  	    )
+		as m left join wd_mem_account as ma on m.id=ma.member_id)
+		<!-- 	<if test="condition.sort == 1" >
+  			 order by ma.account_bouns desc 
+  		</if>
+  		<if test="condition.sort == 2" >
+  			  order by ma.account_bouns asc 
+  		</if>
+  		<if test="condition.sort == 3" >
+  			order by ma.actual_balance desc 
+  		</if>
+  		<if test="condition.sort == 4" >
+  			 order by ma.actual_balance asc 
+  		</if>
+  		
+		limit #{offset, jdbcType=INTEGER} , #{pageSize, jdbcType=INTEGER} -->
+	</select>
+	<!--查询会员列表，按照积分或者余额做排序  -->
+	<select id="getMemberByAccount" resultMap="memViewMap">
+		select ma.id,ma.mid,ma.card_id,ma.card_no,ma.card_barcode,ma.phone,ma.wx_name,ma.outerid,ma.level,ma.level_name,
+		ma.creat_time,ma.person_id,name,m.actual_balance,m.account_bouns from ((select
+		 account_bouns ,actual_balance ,member_id from wd_mem_account   where  org=#{condition.mid, jdbcType=INTEGER} 
+		 
+		 <if test="condition.sort == 1" >
+  			 order by account_bouns desc 
+  		</if>
+  		<if test="condition.sort == 2" >
+  			  order by account_bouns asc 
+  		</if>
+  		<if test="condition.sort == 3" >
+  			order by actual_balance desc 
+  		</if>
+  		<if test="condition.sort == 4" >
+  			 order by actual_balance asc 
+  		</if>
+		limit #{offset, jdbcType=INTEGER} , #{pageSize, jdbcType=INTEGER})
+		as m left join wd_member as ma on ma.id=m.member_id)
+	</select>
+	<!-- add by fujiarui 20170602 -->
+	<select id="selectMemByCondition" resultMap="BaseResultMap">
+  		select <include refid="Query_Column_List" /> from wd_member 
+  		where 1=1
+  		<if test="condition.card_id != null" >
+  			 and card_id=#{condition.card_id, jdbcType=VARCHAR}
+  		</if>
+  		<if test="condition.mid != null" >
+  			 and mid=#{condition.mid, jdbcType=VARCHAR}
+  		</if>
+  		<if test="condition.openid != null" >
+  			 and openid=#{condition.openid, jdbcType=VARCHAR}
+  		</if>
+  		<if test="condition.code != null" >
+  			 and card_barcode=#{condition.code, jdbcType=VARCHAR}
+  		</if>
+	</select>
+	<!-- end  -->
+	<select id="selectMemByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select 
+		<include refid="Query_Column_List" />
+		from wd_member
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	
+	
+	<!-- 修改会员密码 -->
+	<update id="updatePwdByPrimaryKey" parameterType="cn.wandingkeji.member.entity.WdMember">
+		update wd_member
+		set password = #{wdMember.password,jdbcType=VARCHAR}
+		,salt = #{wdMember.salt,jdbcType=VARCHAR}
+		where id = #{wdMember.id,jdbcType=INTEGER}
+	</update>
+	<!--通过openId的获得用户会员id-->
+	<select id="getMemberByOpenId"  resultMap="BaseResultMap" >
+		select
+		<include refid="Query_Column_List" />
+		from wd_member
+		where openid = #{openId,jdbcType=VARCHAR}
+	</select>
+	<!-- 暂时先给绑定查询用 -->
+	<select id="checkMemByCondition" resultMap="BaseResultMap" parameterType="map">
+  		select <include refid="Query_Column_List" /> from wd_member 
+  		where  mid=#{condition.mid, jdbcType=INTEGER} 
+  		<if test="condition.card_no != null" >
+  			 and card_no = #{condition.card_no, jdbcType=VARCHAR}
+  		</if>
+  		<if test="condition.phone != null" >
+  			 and phone = #{condition.phone, jdbcType=VARCHAR}
+  		</if>
+	</select>
+	<update id="updateStatusByPrimaryKey" parameterType="cn.wandingkeji.member.entity.WdMember">
+	     update wd_member
+	     <trim prefix="set" suffixOverrides=",">
+	      <if test="wdMember.loc_status!=null"> loc_status=#{wdMember.loc_status,jdbcType=VARCHAR},</if>
+	      <if test="wdMember.mini_appid!=null">mini_appid=#{wdMember.mini_appid,jdbcType=VARCHAR},</if>
+		  <if test="wdMember.mini_openid!=null">mini_openid=#{wdMember.mini_openid,jdbcType=VARCHAR},</if>
+			 <if test="wdMember.update_paytime!=null">update_paytime=#{wdMember.update_paytime,jdbcType=DATE}</if>
+		 </trim>
+	     where id = #{wdMember.id,jdbcType=INTEGER}
+	</update>
+	<!-- 通过主键修改会员姓名，手机，生日 -->
+	<update id="updateInfoByKey" parameterType="cn.wandingkeji.member.entity.WdMember">
+		update wd_member
+		 <trim prefix="set" suffixOverrides=",">
+		 <if test="wdMember.name!=null">name=#{wdMember.name,jdbcType=VARCHAR},</if>
+		 <if test="wdMember.phone!=null">phone=#{wdMember.phone,jdbcType=VARCHAR},</if>
+		 <if test="wdMember.year!=null">year=#{wdMember.year,jdbcType=VARCHAR},</if>
+		 <if test="wdMember.month!=null">month=#{wdMember.month,jdbcType=VARCHAR},</if>
+		 <if test="wdMember.day!=null">day=#{wdMember.day,jdbcType=VARCHAR},</if>
+		 <if test="wdMember.idcard!=null">idcard=#{wdMember.idcard,jdbcType=VARCHAR},</if>
+		 <if test="wdMember.wx_name!=null">wx_name=#{wdMember.wx_name,jdbcType=VARCHAR},</if>
+		 <if test="wdMember.loc_status!=null">loc_status=#{wdMember.loc_status,jdbcType=VARCHAR},</if>
+		 <if test="wdMember.bonus!=0">bonus=#{wdMember.bonus,jdbcType=INTEGER},</if>
+		 <if test="wdMember.balance!=null">balance=#{wdMember.balance,jdbcType=VARCHAR},</if>
+		 <if test="wdMember.status!=null">status=#{wdMember.status,jdbcType=VARCHAR},</if>
+		 <if test="wdMember.has_active!=null">has_active=#{wdMember.has_active,jdbcType=INTEGER},</if>
+		 <if test="wdMember.sex!=null">sex=#{wdMember.sex,jdbcType=VARCHAR},</if>
+		 <if test="wdMember.phone!=null">phone=#{wdMember.phone,jdbcType=VARCHAR},</if>
+		 <if test="wdMember.salt!=null">salt=#{wdMember.salt,jdbcType=VARCHAR},</if>
+		 <if test="wdMember.password!=null">password=#{wdMember.password,jdbcType=VARCHAR},</if>
+		 <if test="wdMember.card_no!=null">card_no=#{wdMember.card_no,jdbcType=VARCHAR},</if>
+		 <if test="wdMember.level!=null">level=#{wdMember.level,jdbcType=VARCHAR},</if>
+		 <if test="wdMember.level_name!=null">level_name=#{wdMember.level_name,jdbcType=VARCHAR},</if>
+		 </trim>
+		where id = #{wdMember.id,jdbcType=INTEGER}
+	</update>
+	
+	<!-- add by wjl -->
+	<select id="getMemberByMidAndCondition" resultMap="BaseResultMap" parameterType="map">
+  		select * from wd_member 
+  		where  mid=#{condition.mid, jdbcType=INTEGER} 
+  		<!-- add by wjl (2017-12-23) 通过person_id和mid 查询会员信息 -->
+  		<if test="condition.card_id != null">
+  			and card_id = #{condition.card_id , jdbcType = VARCHAR}
+  		</if>
+  		<if test="condition.openid != null" >
+  			 and openid=#{condition.openid, jdbcType=VARCHAR}
+  		</if>
+  		<if test="condition.card_barcode != null">
+  			and card_barcode = #{condition.card_barcode , jdbcType = VARCHAR}
+  		</if>
+  		<if test="condition.person_id != null" >
+  			 and person_id = #{condition.person_id, jdbcType=INTEGER}
+  		</if>
+  		<if test="condition.phone != null">
+  			 and phone = #{condition.phone, jdbcType=VARCHAR}
+  		</if>
+  		<if test="condition.card_no != null" >
+  			 and card_no = #{condition.card_no, jdbcType=VARCHAR}
+  		</if>
+	</select>
+	
+	<update id="updateMemberPersonIdByPrimaryKey" parameterType="cn.wandingkeji.member.entity.WdMember">
+		update wd_member
+		<trim prefix="set" suffixOverrides=",">
+			<if test="wdMember.person_id!=null">person_id=#{wdMember.person_id,jdbcType=INTEGER},</if>
+		</trim>
+		where id = #{wdMember.id,jdbcType=INTEGER}
+	</update>
+	<!-- end -->
+	
+	<!-- ws 1-05 通过小程序的openId 和appid查询一条会员信息 -->
+		<!-- <select id="getMemByCondition" resultMap="BaseResultMap" parameterType="map">
+  		select id,card_id, card_barcode,person_id,openid,has_active from wd_member 
+  		where  mid=#{condition.mid, jdbcType=INTEGER} 
+  		add by wjl (2017-12-23) 通过person_id和mid 查询会员信息
+  		<if test="condition.cardId != null" >
+  			 and card_id = #{condition.cardId, jdbcType=INTEGER}
+  		</if>
+  		<if test="condition.miniOpenId != null">
+  			 and mini_openid = #{condition.miniOpenId, jdbcType=VARCHAR}
+  		</if>
+  		<if test="condition.miniAppid != null" >
+  			 and mini_appid = #{condition.miniAppid, jdbcType=VARCHAR}
+  		</if>
+  		<if test="condition.card_id != null" >
+  			 and card_id = #{condition.card_id, jdbcType=VARCHAR}
+  		</if>
+  		
+	</select> -->
+	
+	<!-- end -->
+	<!-- 王森    更新等级和门店-->
+		<update id="updateLevel" parameterType="cn.wandingkeji.member.entity.WdMember">
+		update wd_member
+	    <trim prefix="set" suffixOverrides=",">
+	       <if test="wdMember.store_id!=null">store_id=#{wdMember.store_id,jdbcType=VARCHAR},</if>  
+		 <if test="wdMember.level!=null">level=#{wdMember.level,jdbcType=VARCHAR},</if>
+		 <if test="wdMember.level_name!=null">level_name=#{wdMember.level_name,jdbcType=VARCHAR},</if>
+		 </trim>
+		where id = #{wdMember.id,jdbcType=INTEGER}
+	</update>
+	
+	<resultMap id="WdCardLevelMap" type="java.util.Map" >
+		<result column="id" property="id" jdbcType="INTEGER"/>
+		<result column="level_name" property="level_name" jdbcType="VARCHAR" />
+		<result column="comments" property="comments" jdbcType="VARCHAR" />
+		<result column="discount" property="discount" jdbcType="DECIMAL" />
+		<result column="sort" property="sort" jdbcType="INTEGER" />
+	</resultMap>
+	
+	<!-- 个人中心等级查询 -->
+	<select id="queryMemLevelInfo" resultType="java.util.Map">
+		SELECT
+			wm.id,wcl.level_name,wcl.`level`,wcl.comments,wcl.discount,wcl.sort
+		FROM
+			wd_member wm
+		LEFT JOIN 
+			wd_card_level wcl ON wm.level = wcl.id
+		WHERE
+			wm.id = #{condition.id,jdbcType=INTEGER}		
+	</select>
+	
+	<select id="selectMemDonate" resultType="map">
+		SELECT * FROM wd_mem_donate_amount where merchant_id = #{mid, jdbcType=INTEGER}
+       and member_id = #{member_id, jdbcType=INTEGER}
+        <if test="sid != null">
+            and store_id = #{sid, jdbcType=INTEGER}
+        </if>
+	</select>
+	
+	<select id="queryMemberBalance" resultType="map">
+		SELECT * FROM wd_mem_balance WHERE member_id = #{member_id, jdbcType=INTEGER}
+	</select>
+	
+	<insert id="insertDonateAmounts" >
+        insert into wd_mem_donate_amount (
+        member_id,merchant_id,store_id
+        ,donate_amount,sum_donate,support_consum
+        )
+        values
+        (
+        #{member_id,jdbcType=INTEGER},#{mid,jdbcType=INTEGER},#{sid,jdbcType=INTEGER}
+        ,#{donate_amount},#{donate_amount},"true"
+        )
+    </insert>
+    
+	<update id="updateMemDonates">
+        update wd_mem_donate_amount
+        set donate_amount = #{donateAmount, jdbcType=DECIMAL},
+        sum_donate = #{sum_donate, jdbcType=DECIMAL}
+        where  1=1
+		<if test="mid != null">
+            and merchant_id = #{mid, jdbcType=INTEGER}
+        </if>
+        <if test="member_id != null">
+            and member_id = #{member_id, jdbcType=INTEGER}
+        </if>
+        <if test="sid != null">
+            and store_id = #{sid, jdbcType=INTEGER}
+        </if>
+        ;
+    </update>
+    
+    <select id="getConsumerByOpenid" resultType="map">
+        SELECT
+            id,mid,card_id,card_barcode,name,phone,sex,level,level_name
+        FROM
+           wd_member
+        WHERE
+           id= #{member_id, jdbcType=INTEGER} AND mid = #{mid, jdbcType=INTEGER}
+	</select>
+	<resultMap id="CardLevelResultMap" type="cn.wandingkeji.member.entity.WdCardLevel">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="card_id" property="card_id" jdbcType="VARCHAR" />
+		<result column="mid" property="mid" jdbcType="INTEGER" />
+		<result column="level" property="level" jdbcType="VARCHAR" />
+		<result column="level_name" property="level_name" jdbcType="VARCHAR" />
+		<result column="min_value" property="min_value" jdbcType="DECIMAL" />
+		<result column="max_value" property="max_value" jdbcType="DECIMAL" />
+		<result column="type" property="type" jdbcType="VARCHAR" />
+		<result column="comments" property="comments" jdbcType="VARCHAR" />
+		<result column="creat_stamp" property="creat_stamp" jdbcType="TIMESTAMP" />
+		<result column="update_stamp" property="update_stamp" jdbcType="TIMESTAMP" />
+		<result column="cum_trans_amt" property="cum_trans_amt" jdbcType="DECIMAL" />
+		<result column="sort" property="sort" jdbcType="VARCHAR" />
+		<result column="discount" property="discount" jdbcType="DECIMAL" />
+		<result column="deposit_level" property="deposit_level" jdbcType="DECIMAL" />
+		<result column="background_pic_url" property="background_pic_url" jdbcType="VARCHAR" />
+	</resultMap>
+	<select id="queryWdCardById" resultMap="CardLevelResultMap">
+		select
+		 id,card_id,level,level_name,min_value,max_value,type,comments,creat_stamp,update_stamp,mid,cum_trans_amt,sort,discount,deposit_level
+		from wd_card_level  where  mid = #{mid, jdbcType=INTEGER}
+		and id = #{levelId, jdbcType=INTEGER} and card_id = #{wx_card_id, jdbcType=INTEGER}
+	</select>
+	 <select id="queryWdCardBySort" resultMap="CardLevelResultMap">
+		select
+		 id,card_id,level,level_name,min_value,max_value,type,comments,creat_stamp,update_stamp,mid,cum_trans_amt,sort,discount,deposit_level,background_pic_url
+		from wd_card_level  where  mid = #{mid, jdbcType=INTEGER}
+		and id = #{id, jdbcType=INTEGER} and card_id = #{wx_card_id, jdbcType=INTEGER}
+	</select>
+	<update id="updateMemberInfo" >
+		update wd_member
+		set level = #{currentLevel,jdbcType=VARCHAR},level_name = #{currLevelName,jdbcType=VARCHAR}
+		where mid = #{mid,jdbcType=INTEGER} and id = #{member_id,jdbcType=INTEGER}
+	</update>
+	
+	<select id="queryPushTokenId" resultType="map">
+		select 
+			id,mid,token_id,token_type
+		from mer_token 
+		where mid = #{mid,jdbcType=INTEGER} and token_type = #{token_type, jdbcType=VARCHAR};
+	</select>
+	<select id="findByDataKey" resultType="map">
+		select id,data_type,data_key,data_value from platform_base_data where data_key=#{dataKey, jdbcType=VARCHAR}
+	</select>
+	<select id="queryDonateAndBalanceInfo" resultType="map">
+		SELECT d.*,s.store_name FROM wd_mem_donate_amount d LEFT JOIN store s on d.store_id = s.id WHERE d.member_id = #{member_id};
+	</select>
+	
+	<select id="queryDonateInfo" resultType="map">
+		SELECT * FROM wd_mem_donate_amount WHERE member_id = #{memberId} and merchant_id = #{mid} and store_id =#{sid};
+	</select>
+	
+	<update id="updateDonateAmount" >
+		update wd_mem_donate_amount
+		set donate_amount = #{donateMap.donate_amount}
+		where member_id = #{donateMap.memberId} and merchant_id = #{donateMap.mid} and store_id =#{donateMap.sid};
+	</update>
+
+
+	
+</mapper>

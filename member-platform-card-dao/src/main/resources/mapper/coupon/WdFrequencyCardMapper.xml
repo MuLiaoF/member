@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.wandingkeji.coupon.mapper.WdFrequencyCardMapper">
+	<resultMap id="BaseResultMap" type="cn.wandingkeji.coupon.entity.WdFrequencyCard">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="card_id" property="card_id" jdbcType="VARCHAR" />
+		<result column="coupon_name" property="coupon_name" jdbcType="VARCHAR" />
+		<result column="creat_time" property="creat_time" jdbcType="TIMESTAMP" />
+		<result column="update_time" property="update_time" jdbcType="TIMESTAMP" />
+		<result column="reserve" property="reserve" jdbcType="VARCHAR" />
+		
+		<result column="numDay" property="numDay" jdbcType="INTEGER" />
+		<result column="numWriteOff" property="numWriteOff" jdbcType="INTEGER" />
+		<result column="initialTotal" property="initialTotal" jdbcType="INTEGER" />
+		<result column="surplus_total" property="surplus_total" jdbcType="INTEGER" />
+		<result column="avatarUrl" property="avatarUrl" jdbcType="VARCHAR" />
+		<result column="role" property="role" jdbcType="VARCHAR" />
+		
+	</resultMap>
+	<sql id="Base_Column_List">
+		id,card_id,coupon_name,creat_time,update_time,reserve,numDay,numWriteOff,initialTotal,avatarUrl,role
+	</sql>
+	<sql id="Insert_Column_List">	
+		card_id,coupon_name,creat_time,update_time,reserve,numDay,numWriteOff,initialTotal,avatarUrl,role
+	</sql>
+	<!-- 根据id查询次卡属性信息 -->
+	<select id="selectById2" resultMap="BaseResultMap" >
+		select  <include refid="Base_Column_List" />
+	 		from  wd_frequency_card  where  id=#{id, jdbcType=INTEGER}
+	</select>
+	<!-- 根据id查询次卡属性信息 -->
+	<select id="selectByCardId" resultMap="BaseResultMap" >
+		select<include refid="Base_Column_List" />
+	 		from  wd_frequency_card 
+	 		 where card_id=#{cardId, jdbcType=VARCHAR} 
+	</select>
+	<select id="selectByCardIdAndOpenid" resultMap="BaseResultMap" >
+		select  wfc.card_id,wfc.coupon_name,wfc.creat_time,
+		wfc.numDay,wfc.numWriteOff,wfc.avatarUrl,wfc.role ,wrf.surplus_total
+	 		from  wd_frequency_card wfc left join wd_receive_frequency  wrf on wfc.card_id = wrf.card_id 
+	 		 where  wfc.card_id=#{cardId, jdbcType=VARCHAR} 
+	 		 and wrf.openid=#{openid, jdbcType=VARCHAR} 
+	</select>
+	<!-- 添加次卡属性信息 -->
+	<insert id="insert" parameterType="cn.wandingkeji.coupon.entity.WdFrequencyCard" useGeneratedKeys="true"  keyProperty="coupon.id">
+		insert into wd_frequency_card (
+			<include refid="Insert_Column_List" />
+		)
+		values (
+		#{coupon.card_id},#{coupon.coupon_name},
+		#{coupon.creat_time},#{coupon.update_time},
+		#{coupon.reserve},
+		#{coupon.numDay},#{coupon.numWriteOff},
+		#{coupon.initialTotal},#{coupon.avatarUrl},
+		#{coupon.role}
+		)
+	</insert>
+	<!-- 根据主键id更新次卡属性信息 -->
+	<update id="updateById" parameterType="cn.wandingkeji.coupon.entity.WdFrequencyCard">
+		update wd_frequency_card
+		 <trim prefix="set" suffixOverrides=",">
+		 	<if test="coupon.card_id != null">card_id=#{coupon.card_id,jdbcType=VARCHAR},</if>
+		 	<if test="coupon.coupon_name != null">coupon_name=#{coupon.coupon_name,jdbcType=VARCHAR},</if>
+		 	<if test="coupon.reserve != null">reserve=#{coupon.reserve,jdbcType=VARCHAR},</if>
+		 	<if test="coupon.role != null">role=#{coupon.role,jdbcType=VARCHAR},</if>
+		 	<if test="coupon.numDay != 0">numDay=#{coupon.numDay,jdbcType=INTEGER},</if>
+		 	<if test="coupon.numWriteOff != null">numWriteOff=#{coupon.numWriteOff,jdbcType=INTEGER},</if>
+		 	<if test="coupon.avatarUrl != null">avatarUrl=#{coupon.avatarUrl,jdbcType=VARCHAR},</if>
+		 </trim>
+		 where id = #{coupon.id,jdbcType=INTEGER}	
+	</update>
+	<!-- 根据主键id删除次卡属性信息 -->
+	<delete id="deleteById">
+		delete from wd_frequency_card  where id = #{id,jdbcType=INTEGER}	
+	</delete>
+
+	 <select id="getConsumerByOpenid" resultType="map">
+        SELECT
+            id,mid,card_id,card_barcode,name,phone,sex,level,level_name
+        FROM
+           wd_member
+        WHERE
+           id= #{member_id, jdbcType=INTEGER} AND mid = #{mid, jdbcType=INTEGER}
+	</select>
+	
+	<select id="getCumTransAmt" resultType="map">
+        SELECT
+            *
+        FROM
+           wd_mem_balance
+        WHERE
+           member_id = #{memberId, jdbcType=INTEGER} AND org = #{mid, jdbcType=INTEGER} AND user_code_id = #{card_barcode, jdbcType=VARCHAR}
+           AND account_name = #{name, jdbcType=VARCHAR} AND card_id = #{card_id, jdbcType=VARCHAR}
+	</select>
+	
+	<update id="updateMemBalance" >
+	update wd_mem_balance a inner join 
+	(
+	select cum_trans_amt + #{amount, jdbcType=DECIMAL} as sum FROM wd_mem_balance 
+	where  org = #{mid, jdbcType=INTEGER} and member_id = #{memberId, jdbcType=INTEGER} and card_id = #{card_id, jdbcType=VARCHAR} 
+	and user_code_id = #{card_barcode, jdbcType=VARCHAR}
+    and account_name = #{name, jdbcType=VARCHAR}
+    ) 
+    b set a.cum_trans_amt = b.sum
+	where org = #{mid, jdbcType=INTEGER} and member_id = #{memberId, jdbcType=INTEGER}
+	 and card_id = #{card_id, jdbcType=VARCHAR} and user_code_id = #{card_barcode, jdbcType=VARCHAR}
+    and account_name = #{name, jdbcType=VARCHAR}
+  </update>
+  
+  <select id="getCardLevel" resultType="String">
+  		SELECT sort FROM wd_card_level where mid = #{mid, jdbcType=INTEGER} AND card_id = #{card_id, jdbcType=VARCHAR} AND id = #{level, jdbcType=VARCHAR};
+  </select>
+<!--
+  <resultMap id="MerchartResultMap" type="com.weupay.member.common.comm.model.Merchants">
+		<id column="mid" property="mid" jdbcType="INTEGER" />
+		<result column="mname" property="mname" jdbcType="VARCHAR" />
+		<result column="malias" property="malias" jdbcType="VARCHAR" />
+		<result column="mpwd" property="mpwd" jdbcType="VARCHAR" />
+		<result column="maccount" property="maccount" jdbcType="VARCHAR" />
+		<result column="salt" property="salt" jdbcType="VARCHAR" />
+		<result column="memail" property="memail" jdbcType="VARCHAR" />
+		<result column="mphone" property="mphone" jdbcType="VARCHAR" />
+		<result column="logo" property="logo" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="mtype" property="mtype" jdbcType="VARCHAR" />
+		<result column="thirdMid" property="thirdMid" jdbcType="VARCHAR" />
+		<result column="agentId" property="agentId" jdbcType="INTEGER" />
+		<result column="parentId" property="parentId" jdbcType="VARCHAR" />
+		<result column="isSub" property="isSub" jdbcType="INTEGER" />
+
+		<result column="sysAppId" property="sysAppId" jdbcType="VARCHAR" />
+		<result column="templetAppId" property="templetAppId" jdbcType="VARCHAR" />
+		<result column="reserve1" property="reserve1" jdbcType="VARCHAR" />
+		<result column="reserve2" property="reserve2" jdbcType="VARCHAR" />
+		<result column="reserve3" property="reserve3" jdbcType="VARCHAR" />
+		<result column="reserve4" property="reserve4" jdbcType="VARCHAR" />
+		<result column="mpid" property="mpid" jdbcType="VARCHAR" />
+		<result column="create_time" property="create_time" jdbcType="TIMESTAMP" />
+		<result column="update_time" property="update_time" jdbcType="TIMESTAMP" />
+		<result column="fid" property="fid" jdbcType="INTEGER" />
+		<result column="pay_type" property="pay_type" jdbcType="VARCHAR" />
+		<result column="rate" property="rate" jdbcType="DECIMAL" />
+		<result column="open_mem" property="open_mem" jdbcType="INTEGER" />
+		<result column="card_id" property="card_id" jdbcType="VARCHAR" />
+		<result column="thirdMkey" property="thirdMkey" jdbcType="VARCHAR" />
+		<result column="onechannel" property="onechannel" jdbcType="VARCHAR" />
+		<result column="url_wm0" property="url_wm0" jdbcType="VARCHAR" />
+		<result column="regIp" property="business_type" jdbcType="VARCHAR" />
+		
+	</resultMap>-->
+
+  <!--<select id="selectById" resultMap="MerchartResultMap" >
+		select  mid, mname, malias,maccount, mpwd,
+		salt,memail,mphone,status,logo,thirdMid,agentId,mtype,parentId,sysAppId,templetAppId,reserve1,reserve2,reserve3,reserve4,create_time,update_time,fid,pay_type,rate,mpid,open_mem,card_id,thirdMkey,onechannel
+		,url_wm0,regIp
+	 		from  merchants  where  mid=#{mid, jdbcType=INTEGER}
+	</select>
+	-->
+	<!--<resultMap id="CardLevelResultMap" type="com.weupay.member.common.card.model.WdCardLevel">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="card_id" property="card_id" jdbcType="VARCHAR" />
+		<result column="mid" property="mid" jdbcType="INTEGER" />
+		<result column="level" property="level" jdbcType="VARCHAR" />
+		<result column="level_name" property="level_name" jdbcType="VARCHAR" />
+		<result column="min_value" property="min_value" jdbcType="DECIMAL" />
+		<result column="max_value" property="max_value" jdbcType="DECIMAL" />
+		<result column="type" property="type" jdbcType="VARCHAR" />
+		<result column="comments" property="comments" jdbcType="VARCHAR" />
+		<result column="creat_stamp" property="creat_stamp" jdbcType="TIMESTAMP" />
+		<result column="update_stamp" property="update_stamp" jdbcType="TIMESTAMP" />
+		<result column="cum_trans_amt" property="cum_trans_amt" jdbcType="DECIMAL" />
+		<result column="sort" property="sort" jdbcType="VARCHAR" />
+		<result column="discount" property="discount" jdbcType="DECIMAL" />
+		<result column="deposit_level" property="deposit_level" jdbcType="DECIMAL" />
+		<result column="background_pic_url" property="background_pic_url" jdbcType="VARCHAR" />
+	</resultMap>-->
+	<!--<select id="selectLevelByCumAmt" resultMap="CardLevelResultMap">
+		select
+		 id,card_id,level,level_name,min_value,max_value,type,comments,creat_stamp,update_stamp,mid,cum_trans_amt,sort,discount,deposit_level,background_pic_url
+		from wd_card_level  where  mid = #{condition.mid,jdbcType=INTEGER}
+		<if test="condition.cum_trans_amt != null" >
+  			 and cum_trans_amt &lt;= #{condition.cum_trans_amt, jdbcType=DECIMAL}
+  		</if>
+  		order by sort desc limit 1
+	</select>-->
+	
+	<update id="updateMemberInfo" >
+		update wd_member
+		set level = #{currentLevel,jdbcType=VARCHAR},level_name = #{currLevelName,jdbcType=VARCHAR}
+		where mid = #{mid,jdbcType=INTEGER} and id = #{memberId,jdbcType=INTEGER}
+	</update>
+	<select id="queryPushTokenId" resultType="map">
+		select 
+			id,mid,token_id,token_type
+		from mer_token 
+		where mid = #{mid,jdbcType=INTEGER} and token_type = #{token_type, jdbcType=VARCHAR};
+	</select>
+	<select id="findByDataKey" resultType="map">
+		select id,data_type,data_key,data_value from platform_base_data where data_key=#{dataKey, jdbcType=VARCHAR}
+	</select>
+</mapper>

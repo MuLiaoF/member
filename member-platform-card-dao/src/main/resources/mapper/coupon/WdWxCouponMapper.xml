@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.wandingkeji.coupon.mapper.WdWxCouponMapper">
+	<resultMap id="BaseResultMap" type="cn.wandingkeji.coupon.entity.WdWxCoupon">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="agent_id" property="agent_id" jdbcType="INTEGER" />
+		<result column="mid" property="mid" jdbcType="INTEGER" />
+		<result column="sid" property="sid" jdbcType="INTEGER" />
+		<result column="eid" property="eid" jdbcType="INTEGER" />
+		<result column="appid" property="appid" jdbcType="VARCHAR" />
+		<result column="card_type" property="card_type" jdbcType="VARCHAR" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="wxcard_id" property="wxcard_id" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="VARCHAR" />
+		<result column="can_share" property="can_share" jdbcType="INTEGER" />
+		<result column="quantity" property="quantity" jdbcType="INTEGER" />
+		<result column="get_limit" property="get_limit" jdbcType="INTEGER" />
+		<result column="create_time" property="create_time" jdbcType="TIMESTAMP" />
+		<result column="update_time" property="update_time" jdbcType="TIMESTAMP" />
+	
+		<result column="location_id_list" property="location_id_list" jdbcType="VARCHAR" />
+
+		
+		<result column="cost_money_unit" property="cost_money_unit" jdbcType="INTEGER" />
+		<result column="increase_bonus" property="increase_bonus" jdbcType="INTEGER" />
+		<result column="max_increase_bonus" property="max_increase_bonus" jdbcType="INTEGER" />
+		<result column="init_increase_bonus" property="init_increase_bonus" jdbcType="INTEGER" />
+		<result column="cost_bonus_unit" property="cost_bonus_unit" jdbcType="INTEGER" />
+		<result column="reduce_money" property="reduce_money" jdbcType="INTEGER" />
+		<result column="least_money_to_use_bonus" property="least_money_to_use_bonus" jdbcType="INTEGER" />
+		<result column="max_reduce_bonus" property="max_reduce_bonus" jdbcType="INTEGER" />
+		
+		<result column="logo_url" property="logo_url" jdbcType="VARCHAR" />
+		<result column="brand_name" property="brand_name" jdbcType="VARCHAR" />
+		<result column="background_pic_url" property="background_pic_url" jdbcType="VARCHAR" />
+		<result column="color" property="color" jdbcType="VARCHAR" />
+		<result column="date_info" property="date_info" jdbcType="VARCHAR" />
+		<result column="time_limit" property="time_limit" jdbcType="VARCHAR" />
+		<result column="notice" property="notice" jdbcType="VARCHAR" />
+		<result column="discount" property="discount" jdbcType="FLOAT" />
+		<result column="supply_bonus" property="supply_bonus" jdbcType="INTEGER" />
+		<result column="supply_discount" property="supply_discount" jdbcType="INTEGER" />
+		<result column="supply_discount_grade" property="supply_discount_grade" jdbcType="INTEGER" />
+		<result column="prerogative" property="prerogative" jdbcType="VARCHAR" />
+		<result column="description" property="description" jdbcType="VARCHAR" />
+		<result column="text_image_list" property="text_image_list" jdbcType="VARCHAR" />
+		<result column="service_phone" property="service_phone" jdbcType="VARCHAR" />
+		<result column="business_service" property="business_service" jdbcType="VARCHAR" />
+	
+		<result column="is_pay" property="is_pay" jdbcType="INTEGER" />
+
+		<result column="center_title" property="center_title" jdbcType="VARCHAR" />
+		<result column="center_sub_title" property="center_sub_title" jdbcType="VARCHAR" />
+		<result column="center_url" property="center_url" jdbcType="VARCHAR" />
+		<result column="auto_activate" property="auto_activate" jdbcType="INTEGER" />
+		<result column="wx_activate" property="wx_activate" jdbcType="INTEGER" />
+		<result column="activate_url" property="activate_url" jdbcType="VARCHAR" />
+		<result column="activate_required" property="activate_required" jdbcType="VARCHAR" />
+		<result column="activate_norequired" property="activate_norequired" jdbcType="VARCHAR" />
+
+		<result column="custom_field1" property="custom_field1" jdbcType="VARCHAR" />
+		<result column="bonus_url" property="bonus_url" jdbcType="VARCHAR" />
+		<result column="custom_field2" property="custom_field2" jdbcType="VARCHAR" />
+		<result column="custom_field3" property="custom_field3" jdbcType="VARCHAR" />
+		<result column="custom_url_name" property="custom_url_name" jdbcType="VARCHAR" />
+		<result column="custom_url_sub_title" property="custom_url_sub_title" jdbcType="VARCHAR" />
+		<result column="custom_url" property="custom_url" jdbcType="VARCHAR" />
+		<result column="promotion_url_name" property="promotion_url_name" jdbcType="VARCHAR" />
+		<result column="promotion_url_sub_title" property="promotion_url_sub_title" jdbcType="VARCHAR" />
+		<result column="promotion_url" property="promotion_url" jdbcType="VARCHAR" />
+		<result column="custom_cell1" property="custom_cell1" jdbcType="VARCHAR" />
+		<result column="use_custom_code" property="use_custom_code" jdbcType="INTEGER" />
+		<result column="custom_code_info" property="custom_code_info" jdbcType="VARCHAR" />
+		<result column="need_push_on_view" property="need_push_on_view" jdbcType="INTEGER" />
+		<result column="get_custom_code_mode" property="get_custom_code_mode" jdbcType="VARCHAR" />
+		<result column="use_all_locations" property="use_all_locations" jdbcType="INTEGER" />
+		<result column="supply_balance" property="supply_balance" jdbcType="INTEGER" />
+		<result column="balance_url" property="balance_url" jdbcType="VARCHAR" />
+
+		<result column="begin_time" property="begin_time" jdbcType="TIMESTAMP" />
+		<result column="end_time" property="end_time" jdbcType="TIMESTAMP" />
+		<result column="code_type" property="code_type" jdbcType="VARCHAR" />
+		<result column="can_give_friend" property="can_give_friend" jdbcType="INTEGER" />
+		<result column="name_type" property="name_type" jdbcType="VARCHAR" />
+		<result column="reserve1" property="reserve1" jdbcType="VARCHAR" />
+		<result column="payment_is_mem" property="payment_is_mem" jdbcType="INTEGER" />
+		<result column="rule_info" property="rule_info" jdbcType="VARCHAR" />
+		<result column="defaults" property="defaults" jdbcType="INTEGER" />
+		<result column="rule_id" property="rule_id" jdbcType="VARCHAR" />
+		<result column="fixed_term" property="fixed_term" jdbcType="INTEGER" />
+		<result column="fixed_begin_term" property="fixed_begin_term" jdbcType="INTEGER" />
+		<result column="loc_logo_url" property="loc_logo_url" jdbcType="VARCHAR" />
+		<result column="loc_bac_url" property="loc_bac_url" jdbcType="VARCHAR" />
+		<result column="old_mem_bind_name" property="old_mem_bind_name" jdbcType="VARCHAR" />
+		<result column="old_mem_bind_url" property="old_mem_bind_url" jdbcType="VARCHAR" />
+		<result column="supply_old_bind" property="supply_old_bind" jdbcType="VARCHAR" />
+		<result column="cash_least_cost" property="cash_least_cost" jdbcType="DECIMAL" />
+		<result column="cash_reduce_cost" property="cash_reduce_cost" jdbcType="DECIMAL" />
+		<result column="is_level" property="isLevel" jdbcType="VARCHAR" />
+		<result column="card_id" property="card_id" jdbcType="VARCHAR" />
+		
+		
+	</resultMap>
+	<sql id="Base_Column_List">
+	id,agent_id,mid,sid,eid,appid,card_type,title,wxcard_id,status,can_share,quantity,
+	get_limit,creat_time,update_time,location_id_list,
+	cost_money_unit,increase_bonus,max_increase_bonus,init_increase_bonus,cost_bonus_unit,reduce_money,least_money_to_use_bonus,
+	max_reduce_bonus,logo_url,brand_name,background_pic_url,color,date_info,time_limit,notice,discount,supply_bonus,supply_discount,supply_discount_grade,
+	prerogative,description,text_image_list,service_phone,business_service,is_pay,
+	center_title,center_sub_title,center_url,auto_activate,wx_activate,activate_url,activate_required,activate_norequired,
+	custom_field1,bonus_url,custom_field2,custom_field3,custom_url_name,
+	custom_url_sub_title,custom_url,promotion_url_name,promotion_url_sub_title,promotion_url,custom_cell1,use_custom_code,custom_code_info,need_push_on_view,
+	get_custom_code_mode,use_all_locations,supply_balance,balance_url,begin_time,end_time,code_type,can_give_friend,name_type,reserve1,payment_is_mem,rule_info,
+	defaults,rule_id,fixed_term,fixed_begin_term,loc_logo_url,loc_bac_url,old_mem_bind_name,old_mem_bind_url,supply_old_bind,cash_least_cost,cash_reduce_cost,is_level,
+	card_id
+	</sql>
+	
+	<sql id="Insert_Column_List">
+    agent_id,mid,sid,eid,appid,card_type,title,wxcard_id,status,can_share,quantity,
+	get_limit,creat_time,update_time,location_id_list,
+	cost_money_unit,increase_bonus,max_increase_bonus,init_increase_bonus,cost_bonus_unit,reduce_money,least_money_to_use_bonus,
+	max_reduce_bonus,logo_url,brand_name,background_pic_url,color,date_info,time_limit,notice,discount,supply_bonus,supply_discount,supply_discount_grade,
+	prerogative,description,text_image_list,service_phone,business_service,is_pay,
+	center_title,center_sub_title,center_url,auto_activate,wx_activate,activate_url,activate_required,activate_norequired,
+	custom_field1,bonus_url,custom_field2,custom_field3,custom_url_name,
+	custom_url_sub_title,custom_url,promotion_url_name,promotion_url_sub_title,promotion_url,custom_cell1,use_custom_code,custom_code_info,need_push_on_view,
+	get_custom_code_mode,use_all_locations,supply_balance,balance_url,begin_time,end_time,code_type,can_give_friend,name_type,reserve1,payment_is_mem,rule_info,
+	defaults,rule_id,fixed_term,fixed_begin_term,loc_logo_url,loc_bac_url,old_mem_bind_name,old_mem_bind_url,supply_old_bind,cash_least_cost,cash_reduce_cost,is_level,
+	card_id
+	</sql>
+	<!-- TODO -->
+    <!--
+	<insert id="insertWx" parameterType="com.weupay.member.common.card.model.WdMemCard">
+		insert into wd_mem_card (
+		<include refid="Insert_Column_List" />
+		)
+		values (#{wdMemCard.agent_id},#{wdMemCard.mid},#{wdMemCard.sid},#{wdMemCard.eid},#{wdMemCard.appid},#{wdMemCard.card_type},#{wdMemCard.title}
+		,#{wdMemCard.wxcard_id},#{wdMemCard.status},#{wdMemCard.can_share},#{wdMemCard.quantity},#{wdMemCard.get_limit}
+		,#{wdMemCard.creat_time},#{wdMemCard.update_time},#{wdMemCard.location_id_list}
+		,#{wdMemCard.cost_money_unit},#{wdMemCard.increase_bonus}
+		,#{wdMemCard.max_increase_bonus},#{wdMemCard.init_increase_bonus},#{wdMemCard.cost_bonus_unit},#{wdMemCard.reduce_money},#{wdMemCard.least_money_to_use_bonus},#{wdMemCard.max_reduce_bonus}
+		,#{wdMemCard.logo_url},#{wdMemCard.brand_name}
+		,#{wdMemCard.background_pic_url},#{wdMemCard.color},#{wdMemCard.date_info},#{wdMemCard.time_limit},#{wdMemCard.notice},#{wdMemCard.discount},#{wdMemCard.supply_bonus},#{wdMemCard.supply_discount},#{wdMemCard.supply_discount_grade}
+		,#{wdMemCard.prerogative},#{wdMemCard.description},#{wdMemCard.text_image_list},#{wdMemCard.service_phone},#{wdMemCard.business_service},#{wdMemCard.is_pay}
+		,#{wdMemCard.center_title},#{wdMemCard.center_sub_title},#{wdMemCard.center_url},#{wdMemCard.auto_activate},#{wdMemCard.wx_activate}
+		,#{wdMemCard.activate_url},#{wdMemCard.activate_required},#{wdMemCard.activate_norequired}
+		,#{wdMemCard.custom_field1},#{wdMemCard.bonus_url},#{wdMemCard.custom_field2},#{wdMemCard.custom_field3},#{wdMemCard.custom_url_name},#{wdMemCard.custom_url_sub_title},#{wdMemCard.custom_url},#{wdMemCard.promotion_url_name},#{wdMemCard.promotion_url_sub_title}
+		,#{wdMemCard.promotion_url},#{wdMemCard.custom_cell1},#{wdMemCard.use_custom_code},#{wdMemCard.custom_code_info},#{wdMemCard.need_push_on_view},#{wdMemCard.get_custom_code_mode},#{wdMemCard.use_all_locations},#{wdMemCard.supply_balance},#{wdMemCard.balance_url}
+		,#{wdMemCard.begin_time},#{wdMemCard.end_time},#{wdMemCard.code_type},#{wdMemCard.can_give_friend},#{wdMemCard.name_type},#{wdMemCard.reserve1},#{wdMemCard.payment_is_mem},#{wdMemCard.rule_info},#{wdMemCard.defaults},#{wdMemCard.rule_id},#{wdMemCard.fixed_term},#{wdMemCard.fixed_begin_term}
+		,#{wdMemCard.loc_logo_url},#{wdMemCard.loc_bac_url},#{wdMemCard.old_mem_bind_name},#{wdMemCard.old_mem_bind_url},#{wdMemCard.supply_old_bind},#{wdMemCard.cash_least_cost},#{wdMemCard.cash_reduce_cost},#{wdMemCard.isLevel},#{wdMemCard.card_id})
+	</insert>-->
+	<!-- 根据微信官方券信息 -->
+	<select id="selectWxById" resultMap="BaseResultMap" >
+		select  <include refid="Base_Column_List" />
+	 		from  wd_wx_coupon  where  id=#{id, jdbcType=INTEGER}
+	</select>
+	<!-- 根据CardId查询领取次卡信息 -->
+	<select id="selectByCardId" resultMap="BaseResultMap" >
+		select  <include refid="Base_Column_List" />
+	 		from   wd_wx_coupon  where  card_id=#{cardId, jdbcType=VARCHAR}
+	</select>
+	<select id="selectByCondition" resultMap="BaseResultMap" >
+		select  <include refid="Base_Column_List" />
+	 		from   wd_wx_coupon  where  1=1
+	 		<if test="condition.cardId != null"> and card_id=#{condition.cardId,jdbcType=VARCHAR}</if>
+	 		<if test="condition.wxcardId != null"> and wxcard_id=#{condition.wxcardId,jdbcType=VARCHAR}</if>
+	</select>
+	
+	<!-- 根据主键id更新微信官方券信息 -->
+	<update id="updateWxById" parameterType="cn.wandingkeji.coupon.entity.WdWxCoupon">
+		update wd_wx_coupon
+		 <trim prefix="set" suffixOverrides=",">
+		 	<if test="coupon.card_id != null">card_id=#{coupon.card_id,jdbcType=VARCHAR},</if>
+		 </trim>
+		 where id = #{coupon.id,jdbcType=INTEGER}	
+	</update>
+	<!-- 根据主键id删除微信官方券信息 -->
+	<delete id="deleteWxById">
+		delete from wd_wx_coupon  where id = #{id,jdbcType=INTEGER}	
+	</delete>
+
+
+
+</mapper>
